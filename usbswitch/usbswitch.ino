@@ -13,10 +13,14 @@
   by Scott Fitzgerald
  */
 
+static bool StatusUSB = true;
+static bool Status5V = false; 
+static bool Status3_3V = false;
+static bool StatusAlwaysON; 
 
 // the setup function runs once when you press reset or power the board
 void setup() {
-  // initialize digital pin 13 as an output.
+  
   pinMode(8, OUTPUT); //5V Relay
   pinMode(7, OUTPUT); //USB VCC Relay
   pinMode(6, OUTPUT); //USB D- Relay
@@ -24,25 +28,212 @@ void setup() {
   pinMode(9, OUTPUT); //3.3V PMOSFET
   pinMode(10, OUTPUT); //Yellow Status LED
   pinMode(16, OUTPUT); //Green Status LED
- }
+  pinMode(15, INPUT_PULLUP ); //Always ON/USB Controlled switch
+
+  Serial.begin(9600);
+
+  Set5V(false);
+  Set3_3V(false);
+  digitalWrite(10, LOW); //Yellow Status LED
+  digitalWrite(16, LOW);  //Green Status LED  
+  ConnectUSB();
+
+  while (!Serial) {
+    ; // wait for serial port to connect. Needed for native USB port only
+  }
+  Serial.println("[I] USB switcher booted up.");
+}
+
+void Set5V(bool s)
+{
+  Status5V = s;
+  if(s){
+    digitalWrite(8, LOW); //5V ON
+  }else{
+    digitalWrite(8, HIGH); //5V OFF
+  }
+}
+
+void Set3_3V(bool s)
+{
+  Status3_3V = s;
+  if(s){
+    digitalWrite(9, LOW); //3.3V ON
+  }else{
+    digitalWrite(9, HIGH); //3.3V OFF
+  }
+}
+void ConnectUSB()
+{
+  digitalWrite(7, HIGH); // USB VCC Connect
+  delay(100);
+  digitalWrite(6, HIGH);  //USB D- Relay Connect
+  digitalWrite(5, HIGH);  //USB D+ Relay Connect  
+  StatusUSB = true;
+}
+
+void DisconnectUSB()
+{
+  StatusUSB = false;
+  digitalWrite(6, LOW);  //USB D- Relay Disconnect
+  digitalWrite(5, LOW);  //USB D+ Relay Disconnect  
+  delay(100);
+  digitalWrite(7, LOW); // USB VCC Disconnect
+}
+
+void AlwaysOn()
+{
+  Set5V(true);
+  delay(100);
+  Set3_3V(true);  
+  ConnectUSB();
+  digitalWrite(10, LOW); //Yellow Status LED
+}
+
+void USBcontrolled()
+{
+  Set3_3V(false);  
+  delay(100);
+  Set5V(false);
+  DisconnectUSB();
+  digitalWrite(10, HIGH); //Yellow Status LED
+}
+
+static char serialReadBuf[16];
+static int serialReadPos = 0;
+
+
+void OnSingleLine(String line)
+{
+  String s;
+  Serial.print("[");
+  Serial.print(line);
+  Serial.print("] ");
+    
+  if( line.equalsIgnoreCase( "?" ) ){
+    Serial.println( "OK, available commands: q, enausb, disusb, ena3_3v, dis3_3v, ena5v, dis5v" );
+    
+  }else if( line.equalsIgnoreCase( "q" ) ){
+    Serial.print( "OK, " );
+    s = "5V:";
+    s += Status5V;
+    s += ", 3_3V:";
+    s += Status3_3V;
+    s += ", USB:";
+    s += StatusUSB;
+    s += ", MODE:";
+    if( StatusAlwaysON ){
+      s += "AlwaysON";
+    }else{
+      s += "USBcontrolled";
+    }
+    Serial.print( s );
+    Serial.println( "" );
+    
+  }else if( line.equalsIgnoreCase( "enausb" ) ){
+    if( StatusAlwaysON ){
+      Serial.println( "ERROR, unable to control under Always ON mode." );
+    }else{
+      ConnectUSB();
+      Serial.println( "OK." );
+    }
+    
+  }else if( line.equalsIgnoreCase( "disusb" ) ){
+    if( StatusAlwaysON ){
+      Serial.println( "ERROR, unable to control under Always ON mode." );
+    }else{
+      DisconnectUSB();
+      Serial.println( "OK." );
+    }
+    
+  }else if( line.equalsIgnoreCase( "ena3_3v" ) ){
+    if( StatusAlwaysON ){
+      Serial.println( "ERROR, unable to control under Always ON mode." );
+    }else{
+      Set3_3V(true);
+      Serial.println( "OK." );
+    }
+    
+  }else if( line.equalsIgnoreCase( "dis3_3v" ) ){
+    if( StatusAlwaysON ){
+      Serial.println( "ERROR, unable to control under Always ON mode." );
+    }else{
+      Set3_3V(false);
+      Serial.println( "OK." );
+    }
+    
+  }else if( line.equalsIgnoreCase( "ena5v" ) ){
+    if( StatusAlwaysON ){
+      Serial.println( "ERROR, unable to control under Always ON mode." );
+    }else{
+      Set5V(true);
+      Serial.println( "OK." );
+    }
+    
+  }else if( line.equalsIgnoreCase( "dis5v" ) ){
+    if( StatusAlwaysON ){
+      Serial.println( "ERROR, unable to control under Always ON mode." );
+    }else{
+      Set5V(false);
+      Serial.println( "OK." );
+    }
+    
+  }else{
+    Serial.println( "ERROR, Unknown command." );
+  }
+}
+
+int FeedChar(int c)
+{
+  if( 0x0D == c || 0x0A == c ){ //is it CR or LF?
+    if( 0 != serialReadPos ){
+      serialReadBuf[serialReadPos] = '\0';
+      String line = serialReadBuf;
+      //Serial.println( line );
+      OnSingleLine(line);
+      serialReadPos = 0;
+      return 1;
+    }
+  }
+  //put the char into the buffer
+  serialReadBuf[serialReadPos] = c;
+  serialReadPos++;
+  if( sizeof(serialReadBuf) <= serialReadPos ){
+    //rewind the buffer when overrun
+    serialReadPos = 0;
+  }
+  
+  return 0;
+}
 
 // the loop function runs over and over again forever
 void loop() {
-  digitalWrite(8, HIGH);   // turn the LED on (HIGH is the voltage level)
-  digitalWrite(7, HIGH); 
-  digitalWrite(6, HIGH);   // turn the LED on (HIGH is the voltage level)
-  digitalWrite(5, HIGH); 
-  digitalWrite(9, HIGH);   // turn the LED on (HIGH is the voltage level)
-  digitalWrite(10, HIGH);
-  digitalWrite(16, LOW); 
-  delay(1000);              // wait for a second
-  digitalWrite(8, LOW);    // turn the LED off by making the voltage LOW
-  digitalWrite(7, LOW);
-  delay(100); 
-  digitalWrite(6, LOW);    // turn the LED off by making the voltage LOW
-  digitalWrite(5, LOW);
-  digitalWrite(9, LOW);    // turn the LED off by making the voltage LOW
-  digitalWrite(10, LOW);
-  digitalWrite(16, HIGH); 
-  delay(2000);              // wait for a second
+  int sw;
+  static int prevSw = 4949;
+  static int count;
+
+  delay(10);
+  count++;
+  
+  if( 0 == (count % 50 ) ){ //blinking Status LED
+    digitalWrite(16, HIGH);  //Green Status LED  
+  }else if( 25 == (count % 50 ) ){
+    digitalWrite(16, LOW);  //Green Status LED  
+  }
+  
+  sw = digitalRead(15);
+  if( sw != prevSw ){
+    if( HIGH == sw ){
+      StatusAlwaysON = false;
+      USBcontrolled();
+    }else{
+      StatusAlwaysON = true;
+      AlwaysOn();
+    }
+  }
+  prevSw = sw;
+  
+  if (0 < Serial.available() ) {
+    FeedChar( Serial.read() );
+  }
 }
