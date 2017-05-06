@@ -1,0 +1,15 @@
+﻿<Window x:Name="mainWindow" x:Class="usbswitch_pccontrol.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="USB Switch Control" Height="350" Width="525" BorderThickness="3">
+    <Grid>
+        <TextBox x:Name="textboxLog" Margin="10,35,10,10" TextWrapping="Wrap" IsReadOnly="True" IsUndoEnabled="False" VerticalScrollBarVisibility="Visible"/>
+        <Button x:Name="buttonConnect" Content="Query" HorizontalAlignment="Left" Margin="120,10,0,0" VerticalAlignment="Top" Width="75" Click="buttonConnect_Click"/>
+        <Button x:Name="button5V" Content="5V" HorizontalAlignment="Left" Margin="266,10,0,0" VerticalAlignment="Top" Width="75" Click="button5V_Click"/>
+        <Button x:Name="button3_3V" Content="3.3V" HorizontalAlignment="Left" Margin="346,10,0,0" VerticalAlignment="Top" Width="75" Click="button3_3V_Click"/>
+        <Button x:Name="buttonUSB" Content="USB" HorizontalAlignment="Left" Margin="426,10,0,0" VerticalAlignment="Top" Width="75" Click="buttonUSB_Click"/>
+        <Button x:Name="buttonSearch" Content="Search" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="49" Click="buttonSearch_Click"/>
+        <TextBox x:Name="textboxComPort" HorizontalAlignment="Left" Height="20" Margin="64,10,0,0" TextWrapping="Wrap" Text="COM6" VerticalAlignment="Top" Width="51"/>
+
+    </Grid>
+</Window>
