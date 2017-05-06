@@ -30,7 +30,7 @@ void setup() {
   pinMode(16, OUTPUT); //Green Status LED
   pinMode(15, INPUT_PULLUP ); //Always ON/USB Controlled switch
 
-  Serial.begin(9600);
+  Serial.begin(9600, SERIAL_8N1 );
 
   Set5V(false);
   Set3_3V(false);
@@ -42,6 +42,8 @@ void setup() {
     ; // wait for serial port to connect. Needed for native USB port only
   }
   Serial.println("[I] USB switcher booted up.");
+  digitalWrite(10, HIGH); //Yellow Status LED
+  digitalWrite(16, HIGH);  //Green Status LED  
 }
 
 void Set5V(bool s)
@@ -109,10 +111,10 @@ void OnSingleLine(String line)
   Serial.print("[");
   Serial.print(line);
   Serial.print("] ");
-    
+
   if( line.equalsIgnoreCase( "?" ) ){
     Serial.println( "OK, available commands: q, enausb, disusb, ena3_3v, dis3_3v, ena5v, dis5v" );
-    
+            digitalWrite(10, LOW); //Yellow Status LED
   }else if( line.equalsIgnoreCase( "q" ) ){
     Serial.print( "OK, " );
     s = "5V:";
@@ -194,6 +196,7 @@ int FeedChar(int c)
       serialReadPos = 0;
       return 1;
     }
+    return 0;
   }
   //put the char into the buffer
   serialReadBuf[serialReadPos] = c;
