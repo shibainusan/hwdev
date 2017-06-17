@@ -19,16 +19,6 @@ download the executable.-->
 			<DATE></DATE>
 			<GRID spacing='100.00000' snap='1'/>
 		</DETAILS>
-		<FONT id='0'>
-			<HEIGHT>-13</HEIGHT>
-			<WIDTH>6</WIDTH>
-			<WEIGHT>400</WEIGHT>
-			<ITALIC>0</ITALIC>
-			<UNDERLINE>0</UNDERLINE>
-			<STRIKEOUT>0</STRIKEOUT>
-			<CHARSET>0</CHARSET>
-			<FACENAME>Arial</FACENAME>
-		</FONT>
 		<FONT id='1'>
 			<HEIGHT>-10</HEIGHT>
 			<WIDTH>0</WIDTH>
@@ -49,7 +39,17 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='6'>
+		<FONT id='4'>
+			<HEIGHT>-13</HEIGHT>
+			<WIDTH>6</WIDTH>
+			<WEIGHT>400</WEIGHT>
+			<ITALIC>0</ITALIC>
+			<UNDERLINE>0</UNDERLINE>
+			<STRIKEOUT>0</STRIKEOUT>
+			<CHARSET>0</CHARSET>
+			<FACENAME>Arial</FACENAME>
+		</FONT>
+		<FONT id='5'>
 			<HEIGHT>-12</HEIGHT>
 			<WIDTH>5</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -59,7 +59,7 @@ download the executable.-->
 			<CHARSET>0</CHARSET>
 			<FACENAME>Arial</FACENAME>
 		</FONT>
-		<FONT id='7'>
+		<FONT id='6'>
 			<HEIGHT>-12</HEIGHT>
 			<WIDTH>5</WIDTH>
 			<WEIGHT>400</WEIGHT>
@@ -74,12 +74,12 @@ download the executable.-->
 			<COLOR>000000</COLOR>
 			<THICKNESS>1</THICKNESS>
 		</STYLE>
-		<STYLE id='6'>
+		<STYLE id='4'>
 			<STYLE>0</STYLE>
 			<COLOR>000000</COLOR>
 			<THICKNESS>1</THICKNESS>
 		</STYLE>
-		<STYLE id='9'>
+		<STYLE id='5'>
 			<STYLE>0</STYLE>
 			<COLOR>FF0000</COLOR>
 			<THICKNESS>1</THICKNESS>
@@ -96,7 +96,7 @@ download the executable.-->
 			<INDEX>0</INDEX>
 			<COLOR>AFFFFF</COLOR>
 		</FILL>
-		<SYMBOLDEF id='6'>
+		<SYMBOLDEF id='1'>
 			<NAME type='0'>LED</NAME>
 			<REF type='0'>D?</REF>
 			<DESCRIPTION>Light Emitting Diode</DESCRIPTION>
@@ -105,61 +105,61 @@ download the executable.-->
 			<TinyCAD>
 				<PIN pos='58.00000,46.00000' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
 				<PIN pos='58.00000,53.00000' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
-				<POLYGON pos='60.40000,48.60000' style='6' fill='0'>
+				<POLYGON pos='60.40000,48.60000' style='4' fill='0'>
 					<POINT pos='0.80000,0.00000' arc='0'/>
 					<POINT pos='0.00000,1.20000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='56.40000,48.00000' style='6' fill='0'>
+				<POLYGON pos='56.40000,48.00000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='3.20000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='56.40000,51.00000' style='6' fill='0'>
+				<POLYGON pos='56.40000,51.00000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='3.20000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='58.00000,51.00000' style='6' fill='0'>
+				<POLYGON pos='58.00000,51.00000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,2.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='58.00000,48.00000' style='6' fill='0'>
+				<POLYGON pos='58.00000,48.00000' style='4' fill='0'>
 					<POINT pos='1.60000,0.00000' arc='0'/>
 					<POINT pos='0.00000,3.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='56.40000,48.00000' style='6' fill='0'>
+				<POLYGON pos='56.40000,48.00000' style='4' fill='0'>
 					<POINT pos='1.60000,3.00000' arc='0'/>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='59.80000,49.20000' style='6' fill='0'>
+				<POLYGON pos='59.80000,49.20000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.60000,0.60000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='59.80000,48.60000' style='6' fill='0'>
+				<POLYGON pos='59.80000,48.60000' style='4' fill='0'>
 					<POINT pos='1.40000,0.00000' arc='0'/>
 					<POINT pos='0.00000,0.60000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='59.00000,48.80000' style='6' fill='0'>
+				<POLYGON pos='59.00000,48.80000' style='4' fill='0'>
 					<POINT pos='2.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,1.60000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='58.00000,46.00000' style='6' fill='0'>
+				<POLYGON pos='58.00000,46.00000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,2.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='60.20000,49.00000' style='6' fill='0'>
+				<POLYGON pos='60.20000,49.00000' style='4' fill='0'>
 					<POINT pos='0.60000,0.00000' arc='0'/>
 					<POINT pos='0.00000,0.60000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='60.00000,49.00000' style='6' fill='0'>
+				<POLYGON pos='60.00000,49.00000' style='4' fill='0'>
 					<POINT pos='0.60000,0.00000' arc='0'/>
 					<POINT pos='0.00000,0.20000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='60.00000,49.20000' style='6' fill='0'>
+				<POLYGON pos='60.00000,49.20000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.20000,0.20000' arc='0'/>
 				</POLYGON>
 			</TinyCAD>
 		</SYMBOLDEF>
-		<SYMBOLDEF id='12'>
+		<SYMBOLDEF id='2'>
 			<NAME type='0'>R</NAME>
 			<REF type='0'>R?</REF>
 			<DESCRIPTION>Resistor</DESCRIPTION>
@@ -168,77 +168,37 @@ download the executable.-->
 			<TinyCAD>
 				<PIN pos='82.00000,43.00000' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
 				<PIN pos='82.00000,51.00000' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
-				<POLYGON pos='82.00000,43.00000' style='6' fill='0'>
+				<POLYGON pos='82.00000,43.00000' style='4' fill='0'>
 					<POINT pos='0.00000,1.60000' arc='0'/>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='82.00000,50.40000' style='6' fill='0'>
+				<POLYGON pos='82.00000,50.40000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,1.60000' arc='0'/>
 				</POLYGON>
-				<RECTANGLE a='80.40000,44.60000' b='83.40000,50.40000' style='6' fill='0'/>
+				<RECTANGLE a='80.40000,44.60000' b='83.40000,50.40000' style='4' fill='0'/>
 			</TinyCAD>
 		</SYMBOLDEF>
-		<SYMBOLDEF id='13'>
-			<NAME type='0'>NPN</NAME>
-			<REF type='0'>Q?</REF>
-			<DESCRIPTION>Bipolar Transistor</DESCRIPTION>
-			<PPP>1</PPP>
-			<REF_POINT power='0' part='0' pos='64.00000,52.00000'/>
-			<TinyCAD>
-				<PIN pos='64.00000,44.00000' which='5' elec='4' direction='3' part='0' number='2' show='3' length='30' number_pos='0' centre_name='0'>E</PIN>
-				<PIN pos='56.00000,44.00000' which='5' elec='4' direction='2' part='0' number='3' show='3' length='30' number_pos='0' centre_name='0'>C</PIN>
-				<PIN pos='60.00000,52.00000' which='5' elec='4' direction='1' part='0' number='1' show='3' length='30' number_pos='0' centre_name='0'>B</PIN>
-				<POLYGON pos='63.00000,44.00000' style='6' fill='0'>
-					<POINT pos='1.00000,0.00000' arc='0'/>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-				</POLYGON>
-				<POLYGON pos='60.00000,48.00000' style='6' fill='0'>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-					<POINT pos='0.00000,4.00000' arc='0'/>
-				</POLYGON>
-				<POLYGON pos='64.00000,45.00000' style='6' fill='0'>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-				</POLYGON>
-				<POLYGON pos='56.00000,48.00000' style='6' fill='0'>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-					<POINT pos='8.00000,0.00000' arc='0'/>
-				</POLYGON>
-				<POLYGON pos='56.00000,44.00000' style='6' fill='0'>
-					<POINT pos='3.00000,4.00000' arc='0'/>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-				</POLYGON>
-				<POLYGON pos='61.00000,44.00000' style='6' fill='0'>
-					<POINT pos='0.00000,4.00000' arc='0'/>
-					<POINT pos='3.00000,0.00000' arc='0'/>
-				</POLYGON>
-				<POLYGON pos='64.00000,44.00000' style='6' fill='0'>
-					<POINT pos='0.00000,0.00000' arc='0'/>
-					<POINT pos='0.00000,1.00000' arc='0'/>
-				</POLYGON>
-			</TinyCAD>
-		</SYMBOLDEF>
-		<SYMBOLDEF id='15'>
+		<SYMBOLDEF id='4'>
 			<NAME type='1'>SWITCH-PUSH-1-NO</NAME>
 			<REF type='1'>S?</REF>
 			<DESCRIPTION>Switch push single pole NO</DESCRIPTION>
 			<PPP>1</PPP>
 			<REF_POINT power='0' part='0' pos='25.00000,30.00000'/>
 			<TinyCAD>
-				<ELLIPSE a='22.60000,23.00000' b='23.60000,22.00000' style='6' fill='1'/>
+				<ELLIPSE a='22.60000,23.00000' b='23.60000,22.00000' style='4' fill='1'/>
 				<PIN pos='23.00000,20.00000' which='0' elec='0' direction='1' part='0' number='1' show='0' length='10' number_pos='0' centre_name='0'></PIN>
 				<PIN pos='23.00000,29.00000' which='0' elec='0' direction='0' part='0' number='2' show='0' length='10' number_pos='0' centre_name='0'></PIN>
-				<ELLIPSE a='22.60000,27.00000' b='23.60000,26.00000' style='6' fill='0'/>
-				<POLYGON pos='22.00000,22.60000' style='6' fill='0'>
+				<ELLIPSE a='22.60000,27.00000' b='23.60000,26.00000' style='4' fill='0'/>
+				<POLYGON pos='22.00000,22.60000' style='4' fill='0'>
 					<POINT pos='1.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,4.40000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='20.40000,24.00000' style='6' fill='0'>
+				<POLYGON pos='20.40000,24.00000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,2.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='20.40000,24.40000' style='6' fill='0'>
+				<POLYGON pos='20.40000,24.40000' style='4' fill='0'>
 					<POINT pos='0.00000,0.60000' arc='0'/>
 					<POINT pos='0.60000,0.60000' arc='0'/>
 					<POINT pos='1.00000,0.00000' arc='0'/>
@@ -247,7 +207,7 @@ download the executable.-->
 				</POLYGON>
 			</TinyCAD>
 		</SYMBOLDEF>
-		<SYMBOLDEF id='28'>
+		<SYMBOLDEF id='5'>
 			<NAME type='0'>R</NAME>
 			<REF type='0'>R?</REF>
 			<DESCRIPTION>Resistor</DESCRIPTION>
@@ -256,15 +216,79 @@ download the executable.-->
 			<TinyCAD>
 				<PIN pos='82.00000,43.00000' which='5' elec='4' direction='1' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
 				<PIN pos='82.00000,51.00000' which='5' elec='4' direction='0' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
-				<POLYGON pos='82.00000,43.00000' style='2' fill='0'>
+				<POLYGON pos='82.00000,43.00000' style='4' fill='0'>
 					<POINT pos='0.00000,1.60000' arc='0'/>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 				</POLYGON>
-				<POLYGON pos='82.00000,50.40000' style='2' fill='0'>
+				<POLYGON pos='82.00000,50.40000' style='4' fill='0'>
 					<POINT pos='0.00000,0.00000' arc='0'/>
 					<POINT pos='0.00000,1.60000' arc='0'/>
 				</POLYGON>
-				<RECTANGLE a='80.40000,44.60000' b='83.40000,50.40000' style='2' fill='0'/>
+				<RECTANGLE a='80.40000,44.60000' b='83.40000,50.40000' style='4' fill='0'/>
+			</TinyCAD>
+		</SYMBOLDEF>
+		<SYMBOLDEF id='6'>
+			<NAME type='0'>NFET</NAME>
+			<REF type='0'>T?</REF>
+			<DESCRIPTION>N- Channel FET</DESCRIPTION>
+			<PPP>1</PPP>
+			<REF_POINT power='0' part='0' pos='63.00000,45.00000'/>
+			<TinyCAD>
+				<PIN pos='61.00000,45.00000' which='5' elec='4' direction='0' part='0' number='3' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+				<PIN pos='63.00000,41.00000' which='5' elec='4' direction='2' part='0' number='2' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+				<PIN pos='56.00000,41.00000' which='5' elec='4' direction='3' part='0' number='1' show='0' length='30' number_pos='0' centre_name='0'></PIN>
+				<POLYGON pos='61.00000,43.40000' style='2' fill='0'>
+					<POINT pos='0.40000,1.20000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='60.60000,43.40000' style='2' fill='0'>
+					<POINT pos='0.40000,0.00000' arc='0'/>
+					<POINT pos='0.00000,1.20000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='61.00000,41.00000' style='2' fill='0'>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+					<POINT pos='0.00000,4.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='58.00000,41.00000' style='2' fill='0'>
+					<POINT pos='0.00000,2.00000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='57.00000,43.00000' style='2' fill='0'>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+					<POINT pos='5.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='61.00000,41.00000' style='2' fill='0'>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+					<POINT pos='2.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='56.00000,41.00000' style='2' fill='0'>
+					<POINT pos='2.00000,0.00000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='60.60000,44.60000' style='2' fill='0'>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+					<POINT pos='0.80000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='60.60000,44.00000' style='2' fill='0'>
+					<POINT pos='0.00000,0.60000' arc='0'/>
+					<POINT pos='0.40000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='61.00000,44.20000' style='2' fill='0'>
+					<POINT pos='0.00000,0.20000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='61.00000,44.20000' style='2' fill='0'>
+					<POINT pos='0.20000,0.40000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='61.00000,44.00000' style='2' fill='0'>
+					<POINT pos='0.20000,0.40000' arc='0'/>
+					<POINT pos='0.00000,0.00000' arc='0'/>
+				</POLYGON>
+				<POLYGON pos='60.80000,44.20000' style='2' fill='0'>
+					<POINT pos='0.20000,0.00000' arc='0'/>
+					<POINT pos='0.00000,0.40000' arc='0'/>
+				</POLYGON>
 			</TinyCAD>
 		</SYMBOLDEF>
 		<OPTIONS>
@@ -283,29 +307,25 @@ download the executable.-->
 			<COLOR_NOTETEXT_LINE>FF0000</COLOR_NOTETEXT_LINE>
 			<COLOR_NOTETEXT_TEXT>FF0000</COLOR_NOTETEXT_TEXT>
 		</OPTIONS>
-		<SYMBOL id='12' pos='154.00000,86.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='2' pos='154.00000,86.00000' part='0' rotate='0' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='R?' show='1' pos='1.00000,-5.60000'/>
 			<FIELD type='0' description='Name' value='1K' show='1' pos='1.00000,-8.00000'/>
 		</SYMBOL>
-		<LABEL pos='152.00000,48.00000' direction='1' font='6' color='208000' style='2'>Digispark P0/LED</LABEL>
-		<LABEL pos='220.00000,76.00000' direction='2' font='7' color='208000' style='1'>Digispark P1/UpBtn</LABEL>
-		<LABEL pos='220.00000,82.00000' direction='2' font='7' color='208000' style='1'>Digispark P2/DownBtn</LABEL>
-		<LABEL pos='116.00000,124.00000' direction='3' font='6' color='208000' style='2'>Digispark 5V pin</LABEL>
-		<LABEL pos='140.00000,62.00000' direction='3' font='6' color='208000' style='1'>Digispark GND</LABEL>
-		<SYMBOL id='15' pos='214.00000,78.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<LABEL pos='152.00000,48.00000' direction='1' font='5' color='208000' style='2'>Digispark P0/LED</LABEL>
+		<LABEL pos='220.00000,76.00000' direction='2' font='6' color='208000' style='1'>Digispark P1/UpBtn</LABEL>
+		<LABEL pos='220.00000,82.00000' direction='2' font='6' color='208000' style='1'>Digispark P2/DownBtn</LABEL>
+		<LABEL pos='116.00000,124.00000' direction='3' font='5' color='208000' style='2'>Digispark 5V pin</LABEL>
+		<LABEL pos='140.00000,62.00000' direction='3' font='5' color='208000' style='1'>Digispark GND</LABEL>
+		<SYMBOL id='4' pos='214.00000,78.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='S?' show='0' pos='-10.00000,2.00000'/>
 			<FIELD type='1' description='Name' value='SWITCH-PUSH-1-NO' show='0' pos='0.00000,0.00000'/>
 		</SYMBOL>
-		<SYMBOL id='15' pos='214.00000,84.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='4' pos='214.00000,84.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='1' description='Ref' value='S?' show='0' pos='-10.00000,2.00000'/>
 			<FIELD type='1' description='Name' value='SWITCH-PUSH-1-NO' show='0' pos='0.00000,0.00000'/>
 		</SYMBOL>
-		<NOTE_TEXT a='226.00000,62.00000' b='250.00000,72.00000' direction='3' style='9' fill='2' font='3' color='FF0000' border_style='1'>Note Internal Pullup is ON</NOTE_TEXT>
-		<SYMBOL id='13' pos='170.00000,108.00000' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
-			<FIELD type='0' description='Ref' value='Q?' show='1' pos='1.00000,-3.60000'/>
-			<FIELD type='0' description='Name' value='NPN 2SC1815' show='1' pos='1.00000,-6.00000'/>
-		</SYMBOL>
-		<SYMBOL id='12' pos='152.00000,90.00000' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<NOTE_TEXT a='226.00000,62.00000' b='250.00000,72.00000' direction='3' style='5' fill='2' font='4' color='FF0000' border_style='1'>Note Internal Pullup is ON</NOTE_TEXT>
+		<SYMBOL id='2' pos='152.00000,90.00000' part='0' rotate='6' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='R?' show='1' pos='-10.00000,2.00000'/>
 			<FIELD type='0' description='Name' value='10K' show='1' pos='-10.00000,-4.00000'/>
 		</SYMBOL>
@@ -314,9 +334,9 @@ download the executable.-->
 		<JUNCTION pos='140.00000,88.00000'/>
 		<WIRE a='140.00000,88.00000' b='142.00000,88.00000'/>
 		<WIRE a='140.00000,62.00000' b='140.00000,88.00000'/>
-		<LABEL pos='162.00000,108.00000' direction='3' font='6' color='208000' style='0'>1</LABEL>
-		<LABEL pos='166.00000,100.00000' direction='3' font='6' color='208000' style='0'>3</LABEL>
-		<LABEL pos='170.00000,108.00000' direction='3' font='6' color='208000' style='0'>2</LABEL>
+		<LABEL pos='168.00000,100.00000' direction='3' font='5' color='208000' style='0'>1</LABEL>
+		<LABEL pos='170.00000,104.00000' direction='3' font='5' color='208000' style='0'>3</LABEL>
+		<LABEL pos='162.00000,104.00000' direction='3' font='5' color='208000' style='0'>2</LABEL>
 		<WIRE a='152.00000,84.00000' b='152.00000,88.00000'/>
 		<JUNCTION pos='152.00000,88.00000'/>
 		<WIRE a='150.00000,88.00000' b='152.00000,88.00000'/>
@@ -327,30 +347,37 @@ download the executable.-->
 		<WIRE a='205.00000,82.00000' b='202.00000,82.00000'/>
 		<JUNCTION pos='202.00000,82.00000'/>
 		<WIRE a='202.00000,76.00000' b='202.00000,82.00000'/>
-		<LABEL pos='162.00000,136.00000' direction='0' font='0' color='208000' style='1'>Ozone Generator GND</LABEL>
-		<LABEL pos='124.00000,136.00000' direction='0' font='0' color='208000' style='1'>Ozone Generator +</LABEL>
+		<LABEL pos='162.00000,136.00000' direction='0' font='3' color='208000' style='1'>Ozone Generator GND</LABEL>
+		<LABEL pos='124.00000,136.00000' direction='0' font='3' color='208000' style='1'>Ozone Generator +</LABEL>
 		<WIRE a='152.00000,48.00000' b='152.00000,76.00000'/>
-		<WIRE a='166.00000,100.00000' b='166.00000,88.00000'/>
-		<WIRE a='166.00000,88.00000' b='152.00000,88.00000'/>
-		<WIRE a='170.00000,108.00000' b='170.00000,116.00000'/>
-		<JUNCTION pos='170.00000,116.00000'/>
-		<WIRE a='140.00000,116.00000' b='170.00000,116.00000'/>
+		<WIRE a='168.00000,100.00000' b='168.00000,88.00000'/>
+		<WIRE a='168.00000,88.00000' b='152.00000,88.00000'/>
 		<WIRE a='162.00000,124.00000' b='162.00000,136.00000'/>
-		<SYMBOL id='28' pos='156.00000,126.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='5' pos='156.00000,126.00000' part='0' rotate='3' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='R?' show='1' pos='-10.00000,2.00000'/>
 			<FIELD type='0' description='Name' value='1K' show='1' pos='-10.00000,-4.00000'/>
 		</SYMBOL>
 		<WIRE a='156.00000,124.00000' b='162.00000,124.00000'/>
 		<JUNCTION pos='162.00000,124.00000'/>
-		<WIRE a='162.00000,108.00000' b='162.00000,124.00000'/>
+		<WIRE a='162.00000,104.00000' b='162.00000,124.00000'/>
 		<WIRE a='116.00000,124.00000' b='124.00000,124.00000'/>
 		<WIRE a='124.00000,124.00000' b='124.00000,136.00000'/>
-		<SYMBOL id='6' pos='140.00000,128.00000' part='0' rotate='2' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+		<SYMBOL id='1' pos='140.00000,128.00000' part='0' rotate='2' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
 			<FIELD type='0' description='Ref' value='D?' show='1' pos='-8.00000,2.00000'/>
 			<FIELD type='0' description='Name' value='red 1.8V 3mA' show='1' pos='-12.00000,-8.00000'/>
 		</SYMBOL>
 		<WIRE a='139.00000,124.00000' b='148.00000,124.00000'/>
 		<WIRE a='132.00000,124.00000' b='124.00000,124.00000'/>
 		<JUNCTION pos='124.00000,124.00000'/>
+		<SYMBOL id='6' pos='170.00000,104.00000' part='0' rotate='1' can_scale='0' show_power='0' scale_x='1.00000' scale_y='1.00000'>
+			<FIELD type='0' description='Ref' value='T?' show='1' pos='1.00000,0.40000'/>
+			<FIELD type='0' description='Name' value='NFET' show='1' pos='1.00000,-2.00000'/>
+		</SYMBOL>
+		<WIRE a='170.00000,104.00000' b='169.00000,104.00000'/>
+		<WIRE a='162.00000,104.00000' b='163.00000,104.00000'/>
+		<JUNCTION pos='170.00000,104.00000'/>
+		<WIRE a='170.00000,104.00000' b='170.00000,116.00000'/>
+		<JUNCTION pos='170.00000,116.00000'/>
+		<WIRE a='140.00000,116.00000' b='170.00000,116.00000'/>
 	</TinyCAD>
 </TinyCADSheets>

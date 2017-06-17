@@ -137,19 +137,8 @@ void setup() {
 
   statUp = digitalRead(pinUpBtn);
   statDown = digitalRead(pinDownBtn);
-  
-  if( LOW == statUp ){
-    onDuration = 60;
-  }else{
-    onDuration = 10;
-  }
   secCurrent = 0;
 
-  if( LOW == statDown ){
-    offDuration = 20;
-  }else{
-    offDuration = 600;
-  }
 #endif
 }
 
@@ -194,17 +183,14 @@ Serial.println(offDuration, DEC);
 
 void DoMMI_DipSW()
 {
-  
-  prevDown = statDown;
   statDown = ReadPinDown();
-  prevUp = statUp;
   statUp = ReadPinUp();
 
   if( prevUp != statUp ){
     if( LOW == statUp ){
-      onDuration = 60;
-    }else{
       onDuration = 10;
+    }else{
+      onDuration = 5;
     }
     secCurrent = 0;
     miliCurrent = 0;
@@ -212,13 +198,16 @@ void DoMMI_DipSW()
 
   if( prevDown != statDown ){
     if( LOW == statDown ){
-      offDuration = 20;
+      offDuration = 60;
     }else{
-      offDuration = 600;
+      offDuration = 120;
     }
     secCurrent = 0;
     miliCurrent = 0;
   } 
+
+  prevDown = statDown;
+  prevUp = statUp;
 }
 
 // the loop function runs over and over again forever
