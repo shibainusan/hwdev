@@ -6,12 +6,12 @@ front_y_size = 90;
 front_z_size = 2;
 
 tap_hole_depth = 10;
-//tap_hole_r = 2.8/2; //M3.0 - 0.2
 
 sma_holes_x = 36;
 sma_holes_y = 16;
 
-led_hole_r = 2;
+led_hole_r = 2.5;
+led_hole_y = 27;
 
 difference(){
 	cube(size = [front_x_size, front_y_size, front_z_size], center = false);
@@ -29,16 +29,16 @@ difference(){
 	translate([front_x_size - sma_holes_x, 8, 0]) {
 		cube( [ sma_holes_x, sma_holes_y, tap_hole_depth], center = false );
 	}
-	translate([7 , 26, front_z_size]) {
+	translate([7 , led_hole_y, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
-	translate([29 , 26, front_z_size]) {
+	translate([29 , led_hole_y, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
-	translate([front_x_size - 7 , 26, front_z_size]) {
+	translate([front_x_size - 7 , led_hole_y, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
-	translate([front_x_size - 29 , 26, front_z_size]) {
+	translate([front_x_size - 29 , led_hole_y, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
 
@@ -55,16 +55,16 @@ difference(){
 	translate([front_x_size - sma_holes_x, 8 + 28, 0]) {
 		cube( [ sma_holes_x, sma_holes_y, tap_hole_depth], center = false );
 	}
-	translate([7 , 26 + 28, front_z_size]) {
+	translate([7 , led_hole_y + 28, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
-	translate([29 , 26 + 28, front_z_size]) {
+	translate([29 , led_hole_y + 28, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
-	translate([front_x_size - 7 , 26 + 28, front_z_size]) {
+	translate([front_x_size - 7 , led_hole_y + 28, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
-	translate([front_x_size - 29 , 26 + 28, front_z_size]) {
+	translate([front_x_size - 29 , led_hole_y + 28, front_z_size]) {
 		cylinder( h = tap_hole_depth, r = led_hole_r, center = true , $fn=16 );
 	}
 

@@ -3,14 +3,14 @@ static bool isPortSelectB[NUM_PORTS+1] = {false}; // array of 1 origin
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(5, OUTPUT); //Port1 NMOSFET
+  pinMode(6, OUTPUT); //Port1 NMOSFET
+  digitalWrite(6, LOW);
+  pinMode(5, OUTPUT); //Port2 NMOSFET
   digitalWrite(5, LOW);
-  pinMode(4, OUTPUT); //Port2 NMOSFET
+  pinMode(4, OUTPUT); //Port3 NMOSFET
   digitalWrite(4, LOW);
-  pinMode(3, OUTPUT); //Port3 NMOSFET
+  pinMode(3, OUTPUT); //Port4 NMOSFET
   digitalWrite(3, LOW);
-  pinMode(2, OUTPUT); //Port4 NMOSFET
-  digitalWrite(2, LOW);
 
   pinMode(10, OUTPUT); //Yellow Status LED
   digitalWrite(10, LOW); //Yellow Status LED
@@ -32,10 +32,10 @@ static int serialReadPos = 0;
 void DoSelect(int port, bool isSelB)
 {
   switch(port){
-    case 1: digitalWrite(5, isSelB); isPortSelectB[port] = isSelB; break;
-    case 2: digitalWrite(4, isSelB); isPortSelectB[port] = isSelB; break;
-    case 3: digitalWrite(3, isSelB); isPortSelectB[port] = isSelB; break;
-    case 4: digitalWrite(2, isSelB); isPortSelectB[port] = isSelB; break;
+    case 1: digitalWrite(6, isSelB); isPortSelectB[port] = isSelB; break;
+    case 2: digitalWrite(5, isSelB); isPortSelectB[port] = isSelB; break;
+    case 3: digitalWrite(4, isSelB); isPortSelectB[port] = isSelB; break;
+    case 4: digitalWrite(3, isSelB); isPortSelectB[port] = isSelB; break;
     default: break;
   }
   
