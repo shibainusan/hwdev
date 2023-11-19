@@ -14,22 +14,22 @@ h3F = h2F + 35;
 hTop = h3F + 32;
 
 fan_mount_xy = 6;
-fan_mount_z = 3;
+fan_mount_z = 4;
 
 difference(){
 	union(){
 		cube(size = [side_x_size, side_y_size, side_z_size], center = false);
 		//60mm FAN mount
-		translate([12 , h1F + 6, -side_z_size]) {
+		translate([12 , h1F + 6, 0]) {
 			cube(size = [fan_mount_xy, fan_mount_xy, fan_mount_z], center = true);
 		}
-		translate([side_x_size - 12 , h1F + 6, -side_z_size]) {
+		translate([side_x_size - 12 , h1F + 6, 0]) {
 			cube(size = [fan_mount_xy, fan_mount_xy, fan_mount_z], center = true);
 		}
-		translate([12 , h1F + 6+ 50, -side_z_size]) {
+		translate([12 , h1F + 6+ 50, 0]) {
 			cube(size = [fan_mount_xy, fan_mount_xy, fan_mount_z], center = true);
 		}
-		translate([side_x_size - 12 , h1F + 6 + 50, -side_z_size]) {
+		translate([side_x_size - 12 , h1F + 6 + 50, 0]) {
 			cube(size = [fan_mount_xy, fan_mount_xy, fan_mount_z], center = true);
 		}
 	}
