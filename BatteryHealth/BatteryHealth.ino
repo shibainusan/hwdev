@@ -8,6 +8,7 @@ short rawVoltage[N_SAMPLE];
 unsigned int deltaTime_us[N_SAMPLE];
 int samplesTaken = 0;
 int nsampleToSweep = 1000;
+int milliOhmRegBank;
 
 void ShutDownRegBank()
 {
@@ -17,16 +18,38 @@ void ShutDownRegBank()
   digitalWrite(6, HIGH);
 }
 
+void ActivateRegBank(int milliOhm)
+{
+  ShutDownRegBank();
+  switch(milliOhm){
+    case 82: 
+      digitalWrite(3, HIGH); 
+      digitalWrite(4, HIGH); 
+      break;
+    case 100: digitalWrite(3, HIGH); break;
+    case 470: digitalWrite(4, HIGH); break;
+    case 3333:
+      digitalWrite(5, HIGH); 
+      digitalWrite(6, HIGH); 
+      break;
+    case 5000: digitalWrite(5, HIGH); break;
+    case 10000: digitalWrite(6, HIGH); break;
+    default: 
+      break;
+  }
+  milliOhmRegBank = milliOhm;
+}
+
 
 void setup() {
   // put your setup code here, to run once:
-  pinMode(3, OUTPUT); //0.5ohm
+  pinMode(3, OUTPUT); //0.1ohm
   digitalWrite(3, HIGH); // active low
-  pinMode(4, OUTPUT); // 0.1ohm
+  pinMode(4, OUTPUT); // 0.47ohm
   digitalWrite(4, HIGH); // active low
   pinMode(5, OUTPUT); // 5ohm
   digitalWrite(5, HIGH); // active low
-  pinMode(6, OUTPUT); // not connected
+  pinMode(6, OUTPUT); // 10ohm
   digitalWrite(6, HIGH); // active low
 
   pinMode(7, OUTPUT); // Analog input0 relay
@@ -44,8 +67,8 @@ void setup() {
   Serial.print("sizeof(int):");
   Serial.println(sizeof(int));
   //digitalWrite(3, LOW);
-  digitalWrite(4, LOW);
-  //digitalWrite(5, LOW);
+  //digitalWrite(4, LOW);
+  digitalWrite(5, LOW);
    //digitalWrite(6, LOW);
 }
 
@@ -109,23 +132,23 @@ void loop() {
     }
   }
   miliCurrent++;
-
+/*
   if(0 < nMeas){
     DoSweep();
     ShutDownRegBank();
     PrintResult();
     nMeas--;
   }
-
+*/
   if(0 < nMeas ){
     if(miliCurrent < 1000){
-      //if( 0 == (miliCurrent & 0x1 ) ){
+      if( 0 == (miliCurrent & 0x1F ) ){
         ref = analogRead(A0);
         PrintVoltage(ref);
-      //}
+      }
     }
     else{
-        ShutDownRegBank();
+        //ShutDownRegBank();
         nMeas--;
     }
   }
