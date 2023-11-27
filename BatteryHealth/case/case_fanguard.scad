@@ -6,7 +6,7 @@ guard_y_size = 60;
 guard_z_size = 3;
 
 guard_hole_x = 8;
-guard_hole_y = 2;
+guard_hole_y = 6;
 guard_hole_z = 8;
 
 tap_hole_depth = 10;
@@ -53,21 +53,23 @@ difference(){
 		screw_hole("M3,10",head="flat",counterbore=0,anchor=TOP);
 	}
 	
-	translate([14 , 3, 0]) {
-		cube(size = [guard_hole_x, guard_hole_y, guard_hole_z], center = true);
-	}
-	translate([14 + 10 , 3, 0]) {
-		cube(size = [guard_hole_x, guard_hole_y, guard_hole_z], center = true);
-	}
-	translate([14 , 3 + 4, 0]) {
-		cube(size = [guard_hole_x, guard_hole_y, guard_hole_z], center = true);
-	}
 	
 	for( x = [14: 10: 50]){
-		for( y = [3: 4: 56]){
+		for( y = [5: 8: 56]){
 			translate([x , y, 0]) {
 				cube(size = [guard_hole_x, guard_hole_y, guard_hole_z], center = true);
 			}
+		}
+	}
+	for( y = [5+8: 8: 48]){
+		translate([5 , y, 0]) {
+			cube(size = [guard_hole_x-2, guard_hole_y, guard_hole_z], center = true);
+		}
+	}
+	
+	for( y = [5+8: 8: 48]){
+		translate([54 , y, 0]) {
+			cube(size = [guard_hole_x, guard_hole_y, guard_hole_z], center = true);
 		}
 	}
 }
