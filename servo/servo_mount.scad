@@ -1,90 +1,34 @@
 
-base_x_size = 90;
-base_y_size = 70;
-base_z_size = 6;
+base_x_size = 30;
+base_y_size = 35.7;
+base_z_size = 3;
 
 tap_hole_depth = 10;
-tap_hole_r = 2.8/2; //M3.0 - 0.2
+tap_hole_r = 1.8/2; //M2.0 - 0.2
 
 difference(){
 	cube(size = [base_x_size, base_y_size, base_z_size], center = false);
 	
 	//切り欠き
-	translate([20,0,0]) {
-		cube(size = [50, 50, 8], center = false);
+	translate([9.1,4.2,0]) {
+		cube(size = [11.8, 22.6, 8], center = false);
 	}
 	
-	//backパネルねじ穴
-	translate( [15 ,tap_hole_depth/2, base_z_size/2] ) rotate(a = [90, 0, 0] ){
+	//servo固定ねじ穴
+	translate( [15 ,2.1, base_z_size] ) {
 		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
 	}
-	translate( [base_x_size - 15, tap_hole_depth/2, base_z_size/2] ) rotate(a = [90, 0, 0] ){
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-
-	//サイドパネルねじ穴
-	translate( [tap_hole_depth/2, 10, base_z_size/2] ) rotate(a = [0, 90, 00] ){
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-	translate( [ tap_hole_depth/2, base_y_size - 10, base_z_size/2] ) rotate(a = [0, 90, 00] ){
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-	translate( [base_x_size - tap_hole_depth/2, 10, base_z_size/2] ) rotate(a = [0, 90, 00] ){
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-	translate( [base_x_size - tap_hole_depth/2, base_y_size - 10, base_z_size/2] ) rotate(a = [0, 90, 00] ){
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}	
-
-	//frontパネルねじ穴
-	translate( [15 , base_y_size - tap_hole_depth/2, base_z_size/2] ) rotate(a = [90, 0, 0] ){
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-	translate( [base_x_size - 15, base_y_size - tap_hole_depth/2, base_z_size/2] ) rotate(a = [90, 0, 0] ){
+	translate( [15, 31.2 - 2.1, base_z_size] ){
 		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
 	}
 
-}
 
-pcb_mount_xy = 6;
-pcb_mount_z = 5;
-pcb_offset_x = 5;
-pcb_offset_y = 35;
-pcb_hole_x = 73;
-pcb_hole_y = 45;
+	//Lower固定ねじ穴
+	translate( [4.8 , base_y_size - 4.8, base_z_size] ){
+		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
+	}
+	translate( [base_x_size - 3.5, 5.7 + 3.5, base_z_size] ) {
+		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
+	}
 
-difference(){
-	translate([pcb_offset_x + pcb_mount_xy/2 , pcb_offset_y, base_z_size+pcb_mount_z/2]) {
-		cube(size = [pcb_mount_xy, pcb_mount_xy, base_z_size], center = true);
-	}
-	translate([pcb_offset_x + pcb_mount_xy/2 , pcb_offset_y, base_z_size+pcb_mount_z/2]) {
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-}
-/*
-difference(){
-	translate([pcb_offset_x + pcb_mount_xy/2 , pcb_offset_y + pcb_hole_y, base_z_size+pcb_mount_z/2]) {
-		cube(size = [pcb_mount_xy, pcb_mount_xy, base_z_size], center = true);
-	}
-	translate([pcb_offset_x + pcb_mount_xy/2 , pcb_offset_y + pcb_hole_y, base_z_size+pcb_mount_z/2]) {
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-}
-
-difference(){
-	translate([pcb_offset_x + pcb_mount_xy/2 + pcb_hole_x , pcb_offset_y + pcb_hole_y, base_z_size+pcb_mount_z/2]) {
-		cube(size = [pcb_mount_xy, pcb_mount_xy, base_z_size], center = true);
-	}
-	translate([pcb_offset_x + pcb_mount_xy/2 + pcb_hole_x , pcb_offset_y + pcb_hole_y, base_z_size+pcb_mount_z/2]) {
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
-}
-*/
-difference(){
-	translate([pcb_offset_x + pcb_mount_xy/2 + pcb_hole_x , pcb_offset_y, base_z_size+pcb_mount_z/2]) {
-		cube(size = [pcb_mount_xy, pcb_mount_xy, base_z_size], center = true);
-	}
-	translate([pcb_offset_x + pcb_mount_xy/2 + pcb_hole_x , pcb_offset_y, base_z_size+pcb_mount_z/2]) {
-		cylinder( h = tap_hole_depth, r = tap_hole_r, center = true , $fn=16 );
-	}
 }
