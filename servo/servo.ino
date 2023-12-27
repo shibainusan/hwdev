@@ -2,25 +2,26 @@
 
 const int analogInPin = A0; 
 int adcVal;
-const int pinServo1 = 1;
+const int pinServo1 = 6;
 Servo servo1;
-const int pinServo2 = 2;
+const int pinServo2 = 7;
 Servo servo2;
 int servoDeg = 0;
 
 #define NUM_BTN 3
-const int pinBtn[NUM_BTN] = {4,5,6};
+const int pinBtn[NUM_BTN] = {2,3,4};
 int statusBtn[NUM_BTN] = {1,1,1};
 int prevStatusBtn[NUM_BTN] = {1,1,1};
 
-#define MODE_INTERNAL 0
-#define MODE_EXTERNAL 1
-int modeControl = MODE_INTERNAL;
+#define MODE_INTERNAL_LR_SYNC 0
+#define MODE_INTERNAL_LR_INV 1
+#define MODE_EXTERNAL 2
+int modeControl = MODE_INTERNAL_LR_SYNC;
 int depthDeg = 180;
 int speedDeg = 1; //1 deg per 20ms
 int direction = 1;
 
-#define N_MOVING_AVG 16 //must be 2^n
+#define N_MOVING_AVG 8 //must be 2^n
 int avgBuf[N_MOVING_AVG] = {0};
 int avgBufPos = 0;
 
@@ -60,11 +61,10 @@ void setup() {
 
 void OnModeBtn()
 {
-  if(MODE_INTERNAL == modeControl){
-    modeControl = MODE_EXTERNAL;
-  }
-  else{
-    modeControl = MODE_INTERNAL;
+  modeControl++;
+
+  if(MODE_EXTERNAL < modeControl){
+    modeControl = MODE_INTERNAL_LR_SYNC;
   }
 }
 
@@ -117,7 +117,7 @@ void loop() {
 
   if( 0 == (tim % 20)){ //PWM 50Hz
     BtnProc();
-    if(MODE_INTERNAL == modeControl){
+    if(MODE_INTERNAL_LR_SYNC == modeControl || MODE_INTERNAL_LR_INV == modeControl){
       servoDeg += (direction * speedDeg);
 
       if( servoDeg < 0 ){
@@ -130,6 +130,15 @@ void loop() {
       }
       sprintf(buf, "%d, %d, %d, %d, %d", servoDeg, direction, speedDeg, depthDeg,modeControl);
       Serial.println(buf);
+
+      if(MODE_INTERNAL_LR_SYNC == modeControl ){
+        servo1.write(servoDeg);
+        servo2.write(servoDeg);
+      }
+      else{ //LR Invert
+        servo1.write(servoDeg);
+        servo2.write(180 - servoDeg);
+      }
     }
     else{
       int adcValRaw = analogRead(analogInPin); //12bit
@@ -140,10 +149,10 @@ void loop() {
       if( 180 < servoDeg){servoDeg = 180; }
       sprintf(buf, "%d, %d, %d, %d, %d", servoDeg, adcValRaw, statusBtn[0], statusBtn[1],statusBtn[2]);
       Serial.println(buf);
-    }
-    servo1.write(servoDeg);
-    servo2.write(servoDeg);
 
+      servo1.write(servoDeg);
+      servo2.write(servoDeg);
+    }
   }
 
   
