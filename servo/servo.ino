@@ -2,9 +2,9 @@
 
 const int analogInPin = A0; 
 int adcVal;
-const int pinServo1 = 6;
+const int pinServo1 = 8;
 Servo servo1;
-const int pinServo2 = 7;
+const int pinServo2 = 9;
 Servo servo2;
 int servoDeg = 0;
 
