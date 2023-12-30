@@ -18,7 +18,7 @@ int prevStatusBtn[NUM_BTN] = {1,1,1};
 #define MODE_EXTERNAL 2
 int modeControl = MODE_INTERNAL_LR_SYNC;
 int depthDeg = 180;
-int speedDeg = 1; //1 deg per 20ms
+int speedDeg = 2; //1 deg per 20ms
 int direction = 1;
 
 #define N_MOVING_AVG 8 //must be 2^n
@@ -78,9 +78,9 @@ void OnDepthBtn()
 
 void OnSpeedBtn()
 {
-  speedDeg++;
-  if( 6 <= speedDeg){
-    speedDeg = 1;
+  speedDeg+=2;
+  if( 10 < speedDeg){
+    speedDeg = 2;
   }
 }
 
