@@ -17,7 +17,7 @@ int prevStatusBtn[NUM_BTN] = {1,1,1};
 #define MODE_INTERNAL_LR_INV 1
 #define MODE_EXTERNAL 2
 int modeControl = MODE_INTERNAL_LR_SYNC;
-int depthDeg = 180;
+int depthDeg = 90; // -90 ... +90 
 int speedDeg = 2; //1 deg per 20ms
 int direction = 1;
 
@@ -71,7 +71,7 @@ void OnModeBtn()
 void OnDepthBtn()
 {
   depthDeg += 30;
-  if(180 < depthDeg ){
+  if(90 < depthDeg ){
     depthDeg = 30;
   }
 }
@@ -103,6 +103,8 @@ void BtnProc()
   }
 }
 
+int zeroCenterDeg = 0;
+
 void loop() {
   unsigned long tim = millis();
   for(;;){ //wait for next 1ms period. 実際は1ループ1.032ms程度になる
@@ -118,18 +120,20 @@ void loop() {
   if( 0 == (tim % 20)){ //PWM 50Hz
     BtnProc();
     if(MODE_INTERNAL_LR_SYNC == modeControl || MODE_INTERNAL_LR_INV == modeControl){
-      servoDeg += (direction * speedDeg);
+      zeroCenterDeg += (direction * speedDeg);
 
-      if( servoDeg < 0 ){
+      if( zeroCenterDeg < depthDeg*(-1) ){
         direction = 1;
-        servoDeg = 0;
+        zeroCenterDeg = depthDeg*(-1);
       }
-      else if( depthDeg < servoDeg){
+      else if( depthDeg < zeroCenterDeg){
         direction = -1;
-        servoDeg = depthDeg;
+        zeroCenterDeg = depthDeg;
       }
-      sprintf(buf, "%d, %d, %d, %d, %d", servoDeg, direction, speedDeg, depthDeg,modeControl);
+      sprintf(buf, "%d, %d, %d, %d, %d", zeroCenterDeg, direction, speedDeg, depthDeg,modeControl);
       Serial.println(buf);
+
+      servoDeg = zeroCenterDeg + 90;
 
       if(MODE_INTERNAL_LR_SYNC == modeControl ){
         servo1.write(servoDeg);
