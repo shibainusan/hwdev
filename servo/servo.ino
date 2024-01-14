@@ -16,6 +16,7 @@ int prevStatusBtn[NUM_BTN] = {1,1,1};
 #define MODE_INTERNAL_LR_SYNC 0
 #define MODE_INTERNAL_LR_INV 1
 #define MODE_EXTERNAL 2
+#define MODE_SLEEP 3
 int modeControl = MODE_INTERNAL_LR_SYNC;
 int depthDeg = 90; // -90 ... +90 
 int speedDeg = 2; //1 deg per 20ms
@@ -63,7 +64,7 @@ void OnModeBtn()
 {
   modeControl++;
 
-  if(MODE_EXTERNAL < modeControl){
+  if(MODE_SLEEP < modeControl){
     modeControl = MODE_INTERNAL_LR_SYNC;
   }
 }
@@ -112,10 +113,7 @@ void loop() {
       break; 
     }
   }
-
-
   char buf[256];
-
 
   if( 0 == (tim % 20)){ //PWM 50Hz
     BtnProc();
@@ -144,7 +142,7 @@ void loop() {
         servo2.write(180 - servoDeg);
       }
     }
-    else{
+    else if(MODE_EXTERNAL == modeControl){
       int adcValRaw = analogRead(analogInPin); //12bit
       adcValRaw = FeedMovingAvg(adcValRaw);
       adcVal = adcValRaw >> 3; // to 9bit
@@ -156,6 +154,9 @@ void loop() {
 
       servo1.write(servoDeg);
       servo2.write(servoDeg);
+    }
+    else{ //Sleep
+      delay(100);
     }
   }
 
