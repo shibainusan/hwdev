@@ -1,3 +1,6 @@
+#include <clocks.h>
+#include "pico_rosc.h"
+#include "pico_sleep.h"
 #include <Servo.h>
 
 const int analogInPin = A0; 
@@ -67,6 +70,22 @@ void OnModeBtn()
   if(MODE_SLEEP < modeControl){
     modeControl = MODE_INTERNAL_LR_SYNC;
   }
+  if(MODE_SLEEP == modeControl){
+    //entering dormant
+    digitalWrite(25, LOW); //turn off LED
+    Serial.end();
+    #if defined(USE_TINYUSB)
+    USBDevice.detach();
+    #endif
+    sleep_run_from_xosc();
+    sleep_goto_dormant_until_pin(pinBtn[0], 0, LOW);
+    // back from dormant state
+    rosc_enable();
+    clocks_init();
+    Serial.begin(115200);
+    modeControl = MODE_INTERNAL_LR_SYNC;
+    //rp2040.reboot();
+  }
 }
 
 void OnDepthBtn()
@@ -115,6 +134,17 @@ void loop() {
   }
   char buf[256];
 
+  if(0 == (tim & 1023)){
+    static int ledStatus = LOW;
+    if(LOW == ledStatus){
+      ledStatus = HIGH;
+    }
+    else{
+      ledStatus = LOW;
+    }
+    digitalWrite(25, ledStatus);
+  }
+
   if( 0 == (tim % 20)){ //PWM 50Hz
     BtnProc();
     if(MODE_INTERNAL_LR_SYNC == modeControl || MODE_INTERNAL_LR_INV == modeControl){
@@ -159,11 +189,4 @@ void loop() {
       delay(100);
     }
   }
-
-  
-  //delay(500);
-//  servo1.write(90);
- // delay(500);
-  //servo1.write(180);
-  //delay(500);
 }
