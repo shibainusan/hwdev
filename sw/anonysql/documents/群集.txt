@@ -1,0 +1,85 @@
+Gunshuシステムの仕様書
+作成者　対馬
+最終更新　2003/6/10
+
+Gunshu Managerプロセス
+
+・登録
+Serviceは起動時にManagerに自分のIPアドレス（もしくはDNS名）とポート番号を通知する。
+
+service sends to manager:reg（改行）　（自分のIPアドレスもしくはDNS名）:（ポート番号）（改行）。
+manager sends:ok（改行）
+
+・巡回
+　定期的にリストにあるGunshu Serviceが正常動作しているかチェックする。ダメなものはリストから削除する。
+
+manager sends to service:test（改行）
+service sends:ok（改行）
+
+
+・リスト提供
+　Gunshu Serviceが稼動しているIPアドレス（もしくはDNS名）とポート番号一覧を返す。
+
+initiator sends to manager:list（改行）
+manager sends:（全リスト件数）（改行）
+manager sends:（IPアドレスもしくはDNS名）:（ポート番号）（改行）
+manager sends:（IPアドレスもしくはDNS名）:（ポート番号）（改行）
+・・・・
+
+
+Gunshu Serviceプロセス
+＜登録＞
+　プロセス起動時にGunshu Managerに自分のIPアドレス（もしくはDNS名）とポート番号を通知する。(必須)
+　定期的にManagerに通知。（オプション）
+service sends to manager:reg（改行）　（自分のIPアドレスもしくはDNS名）:（ポート番号）（改行）
+manager sends:ok もしくは fail（改行）
+
+＜Managerテスト＞
+manager sends to service:test（改行）
+service sends：ok(改行)
+　
+＜転送モードに移行＞
+経路確立後に転送モード移行コマンドを発行してデータ通信を行う。
+経路中のどれかのＴＣＰセッションが切れるとGunshuセッションも終了する。
+
+service sends to another service:forward（改行）
+
+＜経路確立＞
+
+　InitiatorもしくはServiceからestコマンドが送られると、
+　GunshuServiceリストの中からランダムにホストを一つ選び出し、そのホストをリストから削除する。
+　選択したホストに経路確立要求を出す。
+
+initiator or service sends to service:est（改行）(Serviceリスト行数)（改行）（Serviceリスト）
+service sends:ok(改行)　もしくは　fail（改行）
+
+　次のserviceからokを受信した場合は、前のserviceにokを送信する。
+　次のserviceからfailを受信もしくはTCPセッション切断時は、前のserviceにfail送信もしくはTCPセッション切断
+
+
+Gunshu Initiatorライブラリ
+＜リスト要求＞
+　Gunshu Managerから稼動中のGunshu Serviceのリストを得る。
+　
+＜経路確立＞
+　GunshuServiceリストの中からランダムにホストを一つ選び出し、そのホストをリストから削除する。
+　InitiatorはGunshuServiceリストにResponderのIPアドレス（もしくはDNS名）とポート番号をマージする。マージする位置はランダムに選択。
+　選択したホストに経路確立要求を出す。
+
+initiator sends to service:est（改行）(Serviceリスト行数)（改行）（Serviceリスト）
+service sends:ok(改行)　もしくは　fail（改行）
+
+　serviceからokを受信した場合はforwardモードに移行。
+
+Gunshu Responderライブラリ
+＜経路確立＞
+
+　GunshuServiceからestコマンドを受け取ったResponderは、Serviceリストをすべて受信後に
+　OKレスポンスを返す。
+
+service sends to responder:est（改行）(Serviceリスト行数)（改行）（Serviceリスト）
+service sends:ok(改行)　もしくは　fail（改行）
+
+＜転送モードに移行＞
+
+service sends to responder:forward（改行）

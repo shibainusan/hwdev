@@ -1,0 +1,374 @@
+DB性能評価
+
+・テスト用テーブル定義
+　単一のテーブル
+　カラム定義int id(主キー、オートナンバ),char name[64],char moji[256],datetime jikan,int suuji
+
+if exists (select * from sysobjects where id = object_id(N'[dbo].[test]') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+drop table [dbo].[test]
+GO
+
+CREATE TABLE [dbo].[test] (
+	[id] [int] IDENTITY (1, 1) NOT NULL ,
+	[moji] [char] (256) NULL ,
+	[jikan] [datetime] NULL ,
+	[suuji] [int] NULL 
+) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[test] WITH NOCHECK ADD 
+	CONSTRAINT [PK_test] PRIMARY KEY  NONCLUSTERED 
+	(
+		[id]
+	)  ON [PRIMARY] 
+GO
+
+
+＜INSERTテスト＞
+・ODBCで1024件連続挿入
+
+・データサーバに1024件連続挿入（証明書リプレイモード）
+Gunshuなし
+Gunshu1段
+Gunshu2段
+Gunshu3段
+レコード所有者証明書をクライアントに保存しない
+
+＜SELECTテスト＞
+・ODBC版
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+・データサーバ+Gunshuなし版
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+・データサーバ+Gunshu1段版
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+・データサーバ+Gunshu2段版
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+・データサーバ+Gunshu3段版
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+＜updateテスト＞
+全行マッチ
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+＜deleteテスト＞
+全行マッチ
+
+num of row , time , num of request, cpu total, cpu user
+1行
+2行
+4行
+8行
+16行
+32行
+64行
+128行
+256行
+512行
+1024行
+2048行
+
+・テスト用テーブルデータ
+
+総件数：
+自分のデータが20％の場合
+自分のデータが40％の場合
+自分のデータが60％の場合
+自分のデータが80％の場合
+
+・select測定
+結果が1行のレコード検索
+結果が4行のレコード検索
+結果が16行のレコード検索
+結果が64行のレコード検索
+結果が256行のレコード検索
+結果が1024行のレコード検索
+結果が4096行のレコード検索
+結果が65536行のレコード検索
+
+・insert測定
+1行挿入のループ
+
+・Update測定
+1行更新
+4行更新
+16行更新
+64行更新
+256行更新
+1024行更新
+4096行更新
+65536行更新
+　
+・Delete測定
+
+自分のデータが20％の場合　総件数：327680
+自分のデータが40％の場合　総件数：
+自分のデータが60％の場合　総件数：
+自分のデータが80％の場合　総件数：
+1行削除
+4行削除
+16行削除
+64行削除
+256行削除
+1024行削除
+4096行削除
+65536行削除
+
+・事前実験1
+geishaで以下のコードを実行。DBサーバはgeishaにODBC接続
+	for( i = 0 ; i < 10000 ; i++){
+		r = rand();
+		sprintf(sqlstr , "insert into test values('iwatekeniwateguntakizawamura%d','2003/10/12 10:52:10','%d')",i,r);
+		ExecInsertIdentity(&dbc , sqlstr , &affectedRows, &newid);
+		//影響を受けた行数を表示する
+		printf("rows:%d, newid:%d",affectedRows,newid);
+	}
+	
+結果
+time:158774 63request/sec
+cpu total 21.231235, user 14.658761,
+
+time:122156 82reqest/sec
+27.914412,19.101492,
+
+time:121157 82request/sec
+31.459745,21.094396,
+
+・事前実験2
+証明書リプレイモードで"insert into test2 values('iwatekeniwateguntakizawamura','2003/10/12 10:52:10','666')"を連続1000回実行。
+認証サーバ：ics
+gunshuマネージャ：ics
+データサーバ：geisha
+クライアント：geisha
+gunshu経路：endpoint - ics:23622 - geisha:23622 - initiator
+time:27950 35request/sec
+cpu total 45.467574,user 33.715514,
+クライアントでプロファイラ使用(anonygeishaprof.txt)
+time:27500
+48.033503,34.522942,
+
+・事前実験3
+証明書リプレイモードで"insert into test2 values('iwatekeniwateguntakizawamura','2003/10/12 10:52:10','666')"を連続1000回実行。
+認証サーバ：ics
+gunshuマネージャ：ics
+データサーバ：geisha
+クライアント：fax
+gunshu経路：endpoint - ics:23622 - geisha:23622 - initiator
+クライアントでプロファイラ使用(ins1kfaxprof.txt)
+time:30304 33request/sec
+14.474554,8.162591,
+time:29362
+13.130969,8.117326,
+
+
+・事前実験4
+証明書リプレイモードで"insert into test2 values('iwatekeniwateguntakizawamura','2003/10/12 10:52:10','666')"を連続1000回実行。
+認証サーバ：ics
+gunshuマネージャ：ics
+データサーバ：geisha
+クライアント：fax
+gunshu経路：endpoint - initiator
+time:28491 35req/sec
+13.884007,8.330404,
+
+・事前実験5
+証明書リプレイモードで"delete from test2"を実行
+認証サーバ：ics
+gunshuマネージャ：ics
+データサーバ：geisha
+クライアント：fax
+gunshu経路：endpoint - initiator
+affected:952,matched:952
+time:122026
+87.263028,85.917111,
+
+プロファイラ出力（del1kfaxprof.txt）
+affected:1000,matched:1000
+time:111610
+85.429751,82.486991,
+
+affected:829,matched:2048
+time:160621
+83.809227,81.159601,
+
+affected:171,matched:2048
+time:93734
+95.192308,92.702991,
+
+affected:0,matched:2048
+time:9324
+96.348013,90.762621,
+
+・事前実験6
+ODBCでfax→geishaに接続
+"insert into test values('iwatekeniwateguntakizawamura','2003/10/12 10:52:10','555')"を
+1000回実行。
+time:15172　66query/sec
+9.498681,3.232190,
+
+・事前実験7
+証明書リプレイモードで"insert into test2 values('iwatekeniwateguntakizawamura','2003/10/12 10:52:10','666')"を連続1000回実行。
+ただし、レコード所有者証明書をローカルDB(fax)に保存しない。
+認証サーバ：ics
+gunshuマネージャ：ics
+データサーバ：geisha
+クライアント：fax
+gunshu経路：endpoint - initiator
+プロファイラ出力（norecordownercert.txt）
+time:15732 
+8.518754,3.178640,
+
+サーバCPU負荷は50％から70％の間で推移（SQLサーバプロセスは10％程度）
+
+事前実験６とほぼ同じ処理速度を得られた
+→ネックはレコード所有者証明書をローカルDBに保存する処理
+→匿名通信路と暗号通信路、レコード所有者証明書生成処理、署名チェックはあまり関係ない
+
+・事前実験8
+証明書リプレイモードで"select * from test2"を連続10回実行。
+test2には4000件
+認証サーバ：ics
+gunshuマネージャ：ics
+データサーバ：geisha
+クライアント：fax
+gunshu経路：endpoint - initiator
+
+time:10655 0.94req/sec
+83.458647,35.620301,
+3754rows/sec
+
+証明書リプレイモードで"select * from test2 where id = 11000"を連続1000回実行
+1行75バイト
+affected:-858993460,matched:1000
+time:201379 5.0request/sec
+0.427669,0.223780,
+5rows/sec
+
+affected:-858993460,matched:1000
+time:200208
+2.240896,0.740296,
+
+basicodbcで"select * from test2 where id = 11000"を連続1000回実行
+rows:1000, newid:0
+time:1752　570req/sec
+42.857143,8.000000,
+
+basicodbcで"select * from test2 where id < 11000"を連続100回実行
+rows:99900, newid:0
+time:6489 15req/sec
+81.327160,50.771605,
+15395rows/sec
+
+basicodbcで"select * from test2 where id < 10100"を連続1000回実行
+rows:99000, newid:0
+time:8472 118req/sec
+69.539551,47.815821,
+11685rows/sec
+
+basicodbcで"select * from test2 where id < 10010"を連続3000回実行
+rows:27000, newid:0
+time:7400 405req/sec
+59.675237,36.941813,
+3650rows/sec
+
+basicodbcで"select * from test2"を連続50回実行
+test2には4000件
+rows:200000, newid:0
+time:12868　3.9req/sec
+84.513619,60.077821,
+15500rows/sec
+
+証明書リプレイモードで"select * from test2 where id < 10100"を連続1000回実行
+1行75バイト
+affected:-858993460,matched:99000
+time:41039 24req/sec
+53.465105,22.230356,
+2412rows/sec
+
+証明書リプレイモードで"select * from test2 where id < 11000"を連続100回実行
+1行75バイト
+affected:-858993460,matched:99900
+time:32426 3.1req/seq
+69.209389,31.315627,
+3080rows/sec
+
+証明書リプレイモードで"select * from test2 where id < 10010"を連続200回実行
+1行75バイト
+affected:-858993460,matched:1800
+time:40979 4.9req/sec
+0.391007,0.171065,

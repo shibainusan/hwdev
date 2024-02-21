@@ -1,0 +1,65 @@
+ADAPプロトコル詳細
+
+・表記法
+（データ方向）：　（コマンド名：16進数値）（要素名[：ビット幅]）
+
+・認証サーバ
+
+＜署名＞
+クライアントから送信されたハッシュ値に署名をする。
+
+→: （sign:0x01）(size of hash:32bit) (hash value)
+←： (size of signed hash value:32bit)(signed hash value)
+
+＜権限確認＞
+データストアサーバに対するクライアントの操作権限を得る
+
+→: (reqauthority:0x02)
+←:  (authority code:32bit)
+
+・データサーバ
+
+＜リクエスト実行（select）＞
+クライアントは実行したいSQL文とそれに対する認証サーバの署名を送信する。
+成功時は0x05 ok recordset followメッセージに続き、レコードセットが送信される。
+
+→: (exec:0x01)(request cert size:32bit)（request cert value）(plaintext req size:32bit)(null-terminated plaintext req)
+←:  (response code: 0x02 authentication failed, 0x03 authorization failed,0x04 invalid sql, 0x05 ok column header follow)
+コラムヘッダ受信
+←：(num of columns:32bit)(column 1 data size:32bit)(column 1 name size:32bit)(null-terminated column 1 name)...(column N data size:32bit)(column N name size:32bit)(null-terminated column N name)
+行データ受信
+←：（recordset header: 0x08 record follow）(record size:32bit)(null-terminated column 1)(null-terminated column 2).....(null-terminated column N)
+....レコードなくなるまで繰り返し
+←：（recordset header: 0x09 record finished）
+
+
+＜リクエスト実行（insert）＞
+→: (exec:0x01)(request cert size:32bit)（request cert value）(plaintext req size:32bit)(null-terminated plaintext req)
+←:  (response code: 0x02 authentication failed, 0x03 authorization failed,0x04 invalid sql, 0x06 ok record owner cert follow)
+←: (size of record owner cert:32bit)(record owner cert)
+
+＜リクエスト実行（delete）＞
+→: (exec:0x01)(request cert size:32bit)（request cert value）(plaintext req size:32bit)(null-terminated plaintext req)
+←:  (response code: 0x01 ok result follow, 0x02 authentication failed, 0x03 authorization failed,0x04 invalid sql)
+←：(num of matched rows:32bit)(record ids:32bit * num of matched rows)
+→：(num of record owner cert:32bit)(size of record owner cert 1:32bit)(record owner cert 1)....(size of record owner cert n:32bit)(record owner cert n)
+←：(num of affected rows:32bit)(affected row id 1:32bit)....(affected row id n:32bit)
+
+＜リクエスト実行（update）＞
+→: (exec:0x01)(request cert size:32bit)（request cert value）(plaintext req size:32bit)(null-terminated plaintext req)
+←:  (response code: 0x01 ok result follow, 0x02 authentication failed, 0x03 authorization failed,0x04 invalid sql)
+←：(num of matched rows:32bit)(record ids:32bit * num of matched rows)
+→：(num of record owner cert:32bit)(size of record owner cert 1:32bit)(record owner cert 1)....(size of record owner cert n:32bit)(record owner cert n)
+←：(num of affected rows:32bit)(affected row id 1:32bit)....(affected row id n:32bit)
+
+＜リクエスト実行（トランザクション開始）＞
+→：(begintrans:0x02)
+←：(response code: 0x0B autocommit off)
+
+＜リクエスト実行（トランザクションコミット）＞
+→：(committrans:0x03)
+←：(response code: 0x0A autocommit on)
+
+＜リクエスト実行（トランザクションロールバック）＞
+→：(rollbacktrans:0x04)
+←：(response code: 0x0A autocommit on)

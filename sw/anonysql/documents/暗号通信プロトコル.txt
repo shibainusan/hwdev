@@ -1,0 +1,73 @@
+暗号通信プロトコル
+
+セッション共有キー
+　DES-CBCモードキー（56bit）+パリティ（8bit）+初期化ベクタ（64bit）
+
+公開キー、秘密キー
+　RSA公開鍵暗号　1024bit
+
+チャレンジ乱数
+　128bitの乱数
+
+ハンドシェイクプロトコル（サーバ認証のみ）
+
+1.client challenge
+　クライアントは、ランダムに生成したセッション共有キーとクライアントチャレンジ乱数をサーバ公開鍵で暗号化し、サーバに送る。
+
+(protocol code:0x01),(server pubkey{(shared key:64bit),(iv:64bit),(client challenge:128bit)}:1024bit)
+
+2.server response
+　サーバは"client challenge"を秘密キーで復号し、セッション共有キーとクライアントチャレンジ乱数を得る。
+　サーバはクライアントチャレンジ乱数をセッション共有キーで暗号化し、クライアントに送る。
+
+(shared key+iv{(server response:128bit)}:1024bit)
+
+3.client authent
+　クライアントは、server responseセッション共有キーで復号し、server responseがクライアントチャレンジ乱数と一致するか比較する。
+　一致しない場合はコネクションを切断する。
+
+4.client ok
+
+5.server ok
+
+ハンドシェイクプロトコル（両者認証）
+
+
+1.client challenge
+
+　クライアントは、自身の公開キーと、ランダムに生成したセッション共有キーとクライアントチャレンジ乱数をサーバ公開鍵で暗号化し、サーバに送る(client challenge)。
+
+(protocol code:0x02),(server pubkey{(shared key:64bit),(iv:64bit),(client challenge:128bit),(client name:128bit+8bit)}:1024bit)
+
+2. server response & challenge
+　サーバは"client challenge"を秘密キーで復号し、セッション共有キーとクライアントチャレンジ乱数を得る。
+　サーバは、クライアントの公開キーでサーバチャレンジ乱数を暗号化する(server challenge)。
+　サーバはセッション共有キーでクライアントチャレンジ乱数を暗号化する（server response）。
+　サーバは上記の2つをクライアントに送る。
+
+(shared key{client response:128bit}),(client pubkey{server challenge:128bit}:1024bit),
+
+3.client authent & response 
+　
+　クライアントは、セッション共有キーでserver responseを復号したものを、クライアントチャレンジ乱数と比較する。
+　一致しない場合はコネクションを切断する。
+
+　クライアントは、server challengeを自身の秘密キーで復号したサーバチャレンジ乱数を、セッション共有キーで暗号化する(client response)。
+　クライアントはclient responseをサーバに送る
+
+(shared key{server response:128bit})
+
+4.server authent
+　
+　サーバは、セッション共有キーでclient responseを復号したものを、サーバチャレンジ乱数と比較する。
+　一致しない場合はコネクションを切断する。
+
+5.server ok
+
+6.client ok
+
+レコードプロトコル
+
+　送信されるデータストリームは2^32(4G)バイト以下のフラグメントに分割される。各フラグメント先頭4バイトにはユーザデータのバイト数が記録され、続いてユーザデータが記録される。先頭4バイトは、フラグメントのペイロードを示していない。つまり、実際に受信するデータバイト数とユーザデータのバイト数は異なる可能性がある。ユーザデータのバイト数が8の倍数でないときは、フラグメントのペイロードサイズは一番近い大きな8の倍数になる。
+
+　暗号アルゴリズムにDESを採用しているので、ユーザデータサイズが8の倍数でないとき、パディングを付加して暗号化する必要がある。復号時はパディングを除去してユーザプログラムにデータを渡す。
