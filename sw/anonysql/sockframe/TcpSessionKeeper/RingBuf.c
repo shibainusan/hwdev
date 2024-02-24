@@ -79,7 +79,7 @@ extern bool RingBuf_Pop(T_RingBuf* r, char* c)
 		*c = r->buf[r->readPos];
 		r->readPos++;
 		if (r->capacity <= r->readPos) {
-			r->writePos = 0;
+			r->readPos = 0;
 		}
 		r->numUsed--;
 		if (0 == r->numUsed) {
@@ -103,6 +103,23 @@ extern bool RingBuf_BlockingPop(T_RingBuf* r, char* c)
 	else {
 		return false;
 	}
+}
+
+extern bool RingBuf_BlockingPopLine(T_RingBuf* r, char* buf)
+{
+	bool ret;
+	for (;;) {
+		ret = RingBuf_BlockingPop(r, buf);
+		if (!ret) {
+			break;
+		}
+		if (0x0A == *buf || 0x0D == *buf) {
+			*buf = 0;
+			break;
+		}
+		buf++;
+	}
+	return ret;
 }
 
 extern int RingBuf_GetNumUsed(T_RingBuf* r)

@@ -8,16 +8,22 @@
 T_RingBuf ulFifo;
 T_RingBuf dlFifo;
 
+const char* newLine = "\n";
+
 void ServerDownlinkThread(void* ci_)
 {
 	SOCK_INFO* ci = ci_;
 	RingBuf_Clear(&dlFifo);
 	for (;;) {
-		char c;
+		char buf[1024];
 
-		RingBuf_BlockingPop(&dlFifo, &c);
-		printf("[SDL]%c", c);
-		int ret = _send(ci->sock, &c, 1, 0);
+		RingBuf_BlockingPopLine(&dlFifo, buf);
+		printf("[Local DL]%s\n", buf);
+		int ret = _send(ci->sock, buf, strlen(buf), 0);
+		if (ret <= 0) {
+			break; //client connection lost
+		}
+		ret = _send(ci->sock, newLine, strlen(newLine), 0);
 		if (ret <= 0) {
 			break; //client connection lost
 		}
@@ -37,9 +43,9 @@ extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 		if (size <= 0) {
 			break; //client connection lost
 		}
-		printf("[SUL]%s\n", buf);
+		printf("[Local UL]%s\n", buf);
 		RingBuf_PushString(&ulFifo, buf);
-		RingBuf_PushString(&ulFifo, "\n");
+		RingBuf_PushString(&ulFifo, newLine);
 	}
 	RingBuf_UnblockPop(&dlFifo);
 }
@@ -47,14 +53,16 @@ extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 void ClientDownlinkThread(void* si_)
 {
 	SOCK_INFO *si = si_;
-	char c;
 	for (;;) {
-		int ret = _recv(si->sock, &c, 1, 0);
-		if (ret <= 0) {
-			break; //session lost
+		char buf[1024];
+		int size;
+		size = SockFrame_ReceiveLineCRorLF(si, buf, 1024);
+		if (size <= 0) {
+			break; //client connection lost
 		}
-		printf("[CDL]%c", c);
-		RingBuf_Push(&dlFifo, c);
+		printf("[Remote DL]%s\n", buf);
+		RingBuf_PushString(&dlFifo, buf);
+		RingBuf_PushString(&dlFifo, newLine);
 	}
 	RingBuf_UnblockPop(&ulFifo);
 	printf("ClientDownlinkThread finised.");
@@ -72,13 +80,19 @@ void ClientConnectThread(void* ci_)
 		}
 		_beginthread(ClientDownlinkThread, 0, &si);
 		for (;;) {
-			char c;
-			RingBuf_BlockingPop(&ulFifo, &c);
-			printf("[CUL]%c", c);
-			int ret = _send(si.sock, &c, 1, 0);
+			char buf[1024];
+
+			RingBuf_BlockingPopLine(&ulFifo, buf);
+			printf("[Remote UL]%s", buf);
+			int ret = _send(si.sock, buf, strlen(buf), 0);
 			if (ret <= 0) { //lost connection
-				RingBuf_Push(&ulFifo, c); //push back failed data.
+				RingBuf_PushString(&ulFifo, buf); //push back failed data.
 				break; 
+			}
+			ret = _send(si.sock, newLine, strlen(newLine), 0);
+			if (ret <= 0) { //lost connection
+				RingBuf_PushString(&ulFifo, newLine); //push back failed data.
+				break;
 			}
 		}
 	}
