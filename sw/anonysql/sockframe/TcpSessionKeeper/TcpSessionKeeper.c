@@ -22,6 +22,7 @@ void ServerDownlinkThread(void* ci_)
 			break; //client connection lost
 		}
 	}
+	printf("ServerDownlinkThread finised.");
 	_endthread();
 }
 
@@ -40,6 +41,7 @@ extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 		RingBuf_PushString(&ulFifo, buf);
 		RingBuf_PushString(&ulFifo, "\n");
 	}
+	RingBuf_UnblockPop(&dlFifo);
 }
 
 void ClientDownlinkThread(void* si_)
@@ -54,6 +56,8 @@ void ClientDownlinkThread(void* si_)
 		printf("[CDL]%c", c);
 		RingBuf_Push(&dlFifo, c);
 	}
+	RingBuf_UnblockPop(&ulFifo);
+	printf("ClientDownlinkThread finised.");
 	_endthread();
 }
 

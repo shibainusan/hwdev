@@ -109,3 +109,8 @@ extern int RingBuf_GetNumUsed(T_RingBuf* r)
 {
 	return r->numUsed;
 }
+
+extern void RingBuf_UnblockPop(T_RingBuf* r)
+{
+	SetEvent(r->event);
+}
