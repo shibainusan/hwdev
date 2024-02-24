@@ -86,7 +86,9 @@ extern bool RingBuf_Pop(T_RingBuf* r, char* c)
 			ResetEvent(r->event);
 		}
 		ret = true;
-
+	}
+	else {
+		ResetEvent(r->event);
 	}
 
 	LeaveCriticalSection(&r->cs);
@@ -108,6 +110,8 @@ extern bool RingBuf_BlockingPop(T_RingBuf* r, char* c)
 extern bool RingBuf_BlockingPopLine(T_RingBuf* r, char* buf)
 {
 	bool ret;
+
+	*buf = 0;
 	for (;;) {
 		ret = RingBuf_BlockingPop(r, buf);
 		if (!ret) {

@@ -144,6 +144,7 @@
     <ClCompile Include="sockframe_common.c" />
     <ClCompile Include="sockframe_init.c" />
     <ClCompile Include="TcpSessionKeeper.c" />
+    <ClCompile Include="WoLMagicPacket.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RingBuf.h" />

@@ -17,18 +17,20 @@ void ServerDownlinkThread(void* ci_)
 	for (;;) {
 		char buf[1024];
 
-		RingBuf_BlockingPopLine(&dlFifo, buf);
+		if (!RingBuf_BlockingPopLine(&dlFifo, buf)) {
+			break;
+		}
 		printf("[Local DL]%s\n", buf);
 		int ret = _send(ci->sock, buf, strlen(buf), 0);
-		if (ret <= 0) {
+		if (ret < 0) {
 			break; //client connection lost
 		}
 		ret = _send(ci->sock, newLine, strlen(newLine), 0);
-		if (ret <= 0) {
+		if (ret < 0) {
 			break; //client connection lost
 		}
 	}
-	printf("ServerDownlinkThread finised.");
+	printf("ServerDownlinkThread finised.\n");
 	_endthread();
 }
 
@@ -40,7 +42,7 @@ extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 		char buf[1024];
 		int size;
 		size = SockFrame_ReceiveLineCRorLF(ci, buf, 1024);
-		if (size <= 0) {
+		if (size < 0) {
 			break; //client connection lost
 		}
 		printf("[Local UL]%s\n", buf);
@@ -57,7 +59,7 @@ void ClientDownlinkThread(void* si_)
 		char buf[1024];
 		int size;
 		size = SockFrame_ReceiveLineCRorLF(si, buf, 1024);
-		if (size <= 0) {
+		if (size < 0) {
 			break; //client connection lost
 		}
 		printf("[Remote DL]%s\n", buf);
@@ -65,7 +67,7 @@ void ClientDownlinkThread(void* si_)
 		RingBuf_PushString(&dlFifo, newLine);
 	}
 	RingBuf_UnblockPop(&ulFifo);
-	printf("ClientDownlinkThread finised.");
+	printf("ClientDownlinkThread finised.\n");
 	_endthread();
 }
 
@@ -73,28 +75,34 @@ void ClientConnectThread(void* ci_)
 {
 	SOCK_INFO si;
 
-	SockFrame_BuildHostPort(&si, "localhost:56000");
 	for (;;) {
-		if (FALSE == SockFrame_Connect(&si)) {
-			continue;
+		SockFrame_BuildHostPort(&si, "localhost:56000");
+		for (;;) {
+			if (SockFrame_Connect(&si)) {
+				break;
+			}
 		}
 		_beginthread(ClientDownlinkThread, 0, &si);
 		for (;;) {
 			char buf[1024];
 
-			RingBuf_BlockingPopLine(&ulFifo, buf);
-			printf("[Remote UL]%s", buf);
+			if (!RingBuf_BlockingPopLine(&ulFifo, buf)) {
+				break;
+			}
+			printf("[Remote UL]%s\n", buf);
 			int ret = _send(si.sock, buf, strlen(buf), 0);
-			if (ret <= 0) { //lost connection
+			if (ret < 0) { //lost connection
 				RingBuf_PushString(&ulFifo, buf); //push back failed data.
 				break; 
 			}
 			ret = _send(si.sock, newLine, strlen(newLine), 0);
-			if (ret <= 0) { //lost connection
+			if (ret < 0) { //lost connection
 				RingBuf_PushString(&ulFifo, newLine); //push back failed data.
 				break;
 			}
 		}
+		SockFrame_Shutdown(&si);
+		printf("Remote connection lost.\n");
 	}
 	_endthread();
 }
@@ -107,6 +115,10 @@ int main()
 	RingBuf_Init(&dlFifo);
 
 	SockFrame_Init();
+
+	const char destMac[] = { 0x12,0x34,0x56,0x78,0x9A,0xBC };
+	SendMagicPacketOnAllLocalIP(destMac);
+
 	_beginthread(ClientConnectThread, 0, NULL);
 	SockFrame_Listen(8912);
 	SockFrame_Cleanup();

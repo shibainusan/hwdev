@@ -27,6 +27,9 @@
     <ClCompile Include="RingBuf.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WoLMagicPacket.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sockframe.h">
