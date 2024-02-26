@@ -76,7 +76,7 @@ void ClientConnectThread(void* ci_)
 	SOCK_INFO si;
 
 	for (;;) {
-		SockFrame_BuildHostPort(&si, "localhost:56000");
+		SockFrame_BuildHostPort(&si, "192.168.0.20:56001");
 		for (;;) {
 			if (SockFrame_Connect(&si)) {
 				break;
@@ -120,7 +120,7 @@ int main()
 	SendMagicPacketOnAllLocalIP(destMac);
 
 	_beginthread(ClientConnectThread, 0, NULL);
-	SockFrame_Listen(8912);
+	SockFrame_Listen(55001);
 	SockFrame_Cleanup();
 }
 

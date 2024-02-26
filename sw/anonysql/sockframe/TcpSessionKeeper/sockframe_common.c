@@ -126,7 +126,7 @@ int SockFrame_ReceiveLineCRorLF(SOCK_INFO *ci,unsigned char *data,int size)
 	while(1){
 		ret = _recv(ci->sock , data , 1,0);
 		if( ret <= 0){
-			return ret;
+			return -1; //connection closed
 		}else{
 			//‰üs‚©H
 			if( *data == 0xA || *(data) == 0xD){
