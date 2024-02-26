@@ -30,12 +30,24 @@
     <ClCompile Include="WoLMagicPacket.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MyCommands.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="sockframe.h">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="RingBuf.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCommands.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

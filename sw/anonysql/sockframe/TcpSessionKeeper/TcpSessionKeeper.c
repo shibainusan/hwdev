@@ -4,6 +4,7 @@
 
 #include "sockframe.h"
 #include "RingBuf.h"
+#include "MyCommands.h"
 
 T_RingBuf ulFifo;
 T_RingBuf dlFifo;
@@ -20,7 +21,7 @@ void ServerDownlinkThread(void* ci_)
 		if (!RingBuf_BlockingPopLine(&dlFifo, buf)) {
 			break;
 		}
-		printf("[Local DL]%s\n", buf);
+		//printf("[Local DL]%s\n", buf);
 		int ret = _send(ci->sock, buf, strlen(buf), 0);
 		if (ret < 0) {
 			break; //client connection lost
@@ -34,6 +35,8 @@ void ServerDownlinkThread(void* ci_)
 	_endthread();
 }
 
+
+
 extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 {
 	_beginthread(ServerDownlinkThread, 0, ci);
@@ -45,9 +48,14 @@ extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 		if (size < 0) {
 			break; //client connection lost
 		}
-		printf("[Local UL]%s\n", buf);
-		RingBuf_PushString(&ulFifo, buf);
-		RingBuf_PushString(&ulFifo, newLine);
+		//printf("[Local UL]%s\n", buf);
+		if (DoMyCommand(buf)) {
+
+		}
+		else {
+			RingBuf_PushString(&ulFifo, buf);
+			RingBuf_PushString(&ulFifo, newLine);
+		}
 	}
 	RingBuf_UnblockPop(&dlFifo);
 }
@@ -102,7 +110,7 @@ void ClientConnectThread(void* ci_)
 			}
 		}
 		SockFrame_Shutdown(&si);
-		printf("Remote connection lost.\n");
+		printf("Remote client connection lost.\n");
 	}
 	_endthread();
 }
