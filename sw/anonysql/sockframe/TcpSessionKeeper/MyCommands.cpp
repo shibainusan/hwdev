@@ -28,11 +28,13 @@ extern bool DoMyCommand(const char* cmd)
 	}
 
 	if (0 == tokens.front().compare("RemoteHostPort")) {
+		printf("[LocalCmd]%s\n", cmd);
 		tokens.pop_front();
 		strcpy_s(remoteHostPort, sizeof(remoteHostPort), tokens.front().c_str());
 		ret = true;
 	}
 	else if (0 == tokens.front().compare("SendMagicPacket")) {
+		printf("[LocalCmd]%s\n", cmd);
 		tokens.pop_front();
 		MacAddrStringToCharArray(tokens.front().c_str(), magicPacketDestMac, sizeof(magicPacketDestMac));
 		SendMagicPacketOnAllLocalIP(magicPacketDestMac);
