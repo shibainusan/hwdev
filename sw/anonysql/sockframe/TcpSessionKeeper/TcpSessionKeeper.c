@@ -79,17 +79,28 @@ void ClientDownlinkThread(void* si_)
 	_endthread();
 }
 
+static void TryClientConnect(SOCK_INFO *si)
+{
+	for (;;) {
+		if (0 != strlen(remoteHostPort)) {
+			break;
+		}
+		Sleep(100);
+	}
+	SockFrame_BuildHostPort(si, remoteHostPort);
+	for (;;) {
+		if (SockFrame_Connect(si)) {
+			break;
+		}
+	}
+}
+
 void ClientConnectThread(void* ci_)
 {
 	SOCK_INFO si;
 
 	for (;;) {
-		SockFrame_BuildHostPort(&si, "192.168.0.20:56001");
-		for (;;) {
-			if (SockFrame_Connect(&si)) {
-				break;
-			}
-		}
+		TryClientConnect(&si);
 		_beginthread(ClientDownlinkThread, 0, &si);
 		for (;;) {
 			char buf[1024];
@@ -118,6 +129,9 @@ void ClientConnectThread(void* ci_)
 int main()
 {
 	printf("starting TcpSessionKeeper.\n\n");
+
+	//DoMyCommand("RemoteHostPort 192.168.0.20:56001");
+	//DoMyCommand("SendMagicPacket 00-00-91-09-85-40");
 
 	RingBuf_Init(&ulFifo);
 	RingBuf_Init(&dlFifo);

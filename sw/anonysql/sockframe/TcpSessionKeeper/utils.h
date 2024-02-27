@@ -29,6 +29,4 @@ extern bool StopChildConsoleProcess(T_CHILD_CONSOLE_INFO *ci);
 extern bool GetStdoutChildConsoleProcess(T_CHILD_CONSOLE_INFO *ci, std::string *out);
 
 extern int HexStringToCharArray(const char *str, unsigned char *outbuf, int buflen);
-
-extern double round(double number); //for MSVC2012 or older
-extern float roundf(float number); //for MSVC2012 or older
+extern int MacAddrStringToCharArray(const char* str, unsigned char* outbuf, int buflen);

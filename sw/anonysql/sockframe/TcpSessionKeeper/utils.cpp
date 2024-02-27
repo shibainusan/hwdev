@@ -310,3 +310,42 @@ extern int HexStringToCharArray(const char *str, unsigned char *outbuf, int bufl
 	}
 	return i;
 }
+
+extern int MacAddrStringToCharArray(const char* str, unsigned char* outbuf, int buflen)
+{
+	int i;
+	int v;
+	int nByte = 0;
+	int nBuf = 0;
+
+	if (NULL == str) {
+		return 0;
+	}
+	if (NULL == outbuf) {
+		return 0;
+	}
+
+	int len = strlen(str);
+
+	for (i = 0; i < len; i++) {
+		if (':' == str[i] || ' ' == str[i] || '-' == str[i]) {
+			continue;
+		}
+		v = HexChar2Int(str[i]);
+		if (v < 0) {
+			break;
+		}
+		outbuf[nBuf] = (v << 4);
+		v = HexChar2Int(str[i+1]);
+		if (v < 0) {
+			break;
+		}
+		outbuf[nBuf] += v;
+		nBuf++;
+		if (buflen <= nBuf) {
+			break;
+		}
+		i++;
+	}
+	return nBuf;
+}
