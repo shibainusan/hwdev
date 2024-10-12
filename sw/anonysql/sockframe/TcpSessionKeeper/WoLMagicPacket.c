@@ -54,7 +54,7 @@ bool SendMagicPacket(const char destMac[6], uint32_t localAddr)
 
 }
 
-extern void SendMagicPacketOnAllLocalIP(const char destMac[6])
+extern void SendMagicPacketOnAllLocalIP(const uint8_t destMac[6])
 {
 	char name[1024];
 	struct hostent* hs;

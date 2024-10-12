@@ -80,7 +80,7 @@ int SockFrame_BuildHostPort(SOCK_INFO *si, const char *name)
 			*port = '\0';
 			port++;
 			//ƒ|[ƒg”Ô†Žæ“¾
-			sscanf(port , "%d" , &(si->port));
+			sscanf(port , "%hd" , &(si->port));
 			//si->port = htons(si->port);
 			break;
 		}

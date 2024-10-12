@@ -4,6 +4,7 @@
 
 #include "sockframe.h"
 #include "RingBuf.h"
+#include "MyCommands.h"
 
 T_RingBuf ulFifo;
 T_RingBuf dlFifo;
@@ -20,7 +21,7 @@ void ServerDownlinkThread(void* ci_)
 		if (!RingBuf_BlockingPopLine(&dlFifo, buf)) {
 			break;
 		}
-		printf("[Local DL]%s\n", buf);
+		//printf("[Local DL]%s\n", buf);
 		int ret = _send(ci->sock, buf, strlen(buf), 0);
 		if (ret < 0) {
 			break; //client connection lost
@@ -34,6 +35,8 @@ void ServerDownlinkThread(void* ci_)
 	_endthread();
 }
 
+
+
 extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 {
 	_beginthread(ServerDownlinkThread, 0, ci);
@@ -45,9 +48,14 @@ extern void SockFrame_OnClientConnect(SOCK_INFO* ci)
 		if (size < 0) {
 			break; //client connection lost
 		}
-		printf("[Local UL]%s\n", buf);
-		RingBuf_PushString(&ulFifo, buf);
-		RingBuf_PushString(&ulFifo, newLine);
+		//printf("[Local UL]%s\n", buf);
+		if (DoMyCommand(buf)) {
+
+		}
+		else {
+			RingBuf_PushString(&ulFifo, buf);
+			RingBuf_PushString(&ulFifo, newLine);
+		}
 	}
 	RingBuf_UnblockPop(&dlFifo);
 }
@@ -71,17 +79,28 @@ void ClientDownlinkThread(void* si_)
 	_endthread();
 }
 
+static void TryClientConnect(SOCK_INFO *si)
+{
+	for (;;) {
+		if (0 != strlen(remoteHostPort)) {
+			break;
+		}
+		Sleep(100);
+	}
+	SockFrame_BuildHostPort(si, remoteHostPort);
+	for (;;) {
+		if (SockFrame_Connect(si)) {
+			break;
+		}
+	}
+}
+
 void ClientConnectThread(void* ci_)
 {
 	SOCK_INFO si;
 
 	for (;;) {
-		SockFrame_BuildHostPort(&si, "localhost:56000");
-		for (;;) {
-			if (SockFrame_Connect(&si)) {
-				break;
-			}
-		}
+		TryClientConnect(&si);
 		_beginthread(ClientDownlinkThread, 0, &si);
 		for (;;) {
 			char buf[1024];
@@ -102,7 +121,7 @@ void ClientConnectThread(void* ci_)
 			}
 		}
 		SockFrame_Shutdown(&si);
-		printf("Remote connection lost.\n");
+		printf("Remote client connection lost.\n");
 	}
 	_endthread();
 }
@@ -110,6 +129,9 @@ void ClientConnectThread(void* ci_)
 int main()
 {
 	printf("starting TcpSessionKeeper.\n\n");
+
+	//DoMyCommand("RemoteHostPort 192.168.0.20:56001");
+	//DoMyCommand("SendMagicPacket 00-00-91-09-85-40");
 
 	RingBuf_Init(&ulFifo);
 	RingBuf_Init(&dlFifo);
@@ -120,7 +142,7 @@ int main()
 	SendMagicPacketOnAllLocalIP(destMac);
 
 	_beginthread(ClientConnectThread, 0, NULL);
-	SockFrame_Listen(8912);
+	SockFrame_Listen(55001);
 	SockFrame_Cleanup();
 }
 

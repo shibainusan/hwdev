@@ -88,6 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -140,15 +141,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="MyCommands.cpp" />
     <ClCompile Include="RingBuf.c" />
     <ClCompile Include="sockframe_common.c" />
     <ClCompile Include="sockframe_init.c" />
     <ClCompile Include="TcpSessionKeeper.c" />
+    <ClCompile Include="utils.cpp" />
     <ClCompile Include="WoLMagicPacket.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="MyCommands.h" />
     <ClInclude Include="RingBuf.h" />
     <ClInclude Include="sockframe.h" />
+    <ClInclude Include="utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
