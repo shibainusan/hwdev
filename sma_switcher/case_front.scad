@@ -10,7 +10,7 @@ tap_hole_depth = 10;
 sma_holes_x = 36;
 sma_holes_y = 16;
 
-led_hole_r = 2.5;
+led_hole_r = 2;
 led_hole_y = 27;
 
 difference(){
