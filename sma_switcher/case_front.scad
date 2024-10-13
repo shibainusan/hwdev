@@ -8,10 +8,10 @@ front_z_size = 2;
 tap_hole_depth = 10;
 
 sma_holes_x = 36;
-sma_holes_y = 16;
+sma_holes_y = 14;
 
 led_hole_r = 2;
-led_hole_y = 27;
+led_hole_y = 25;
 
 difference(){
 	cube(size = [front_x_size, front_y_size, front_z_size], center = false);

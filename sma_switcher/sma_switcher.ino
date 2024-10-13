@@ -32,10 +32,10 @@ static int serialReadPos = 0;
 void DoSelect(int port, bool isSelB)
 {
   switch(port){
-    case 1: digitalWrite(6, isSelB); isPortSelectB[port] = isSelB; break;
-    case 2: digitalWrite(5, isSelB); isPortSelectB[port] = isSelB; break;
-    case 3: digitalWrite(4, isSelB); isPortSelectB[port] = isSelB; break;
-    case 4: digitalWrite(3, isSelB); isPortSelectB[port] = isSelB; break;
+    case 1: digitalWrite(3, isSelB); isPortSelectB[port] = isSelB; break;
+    case 2: digitalWrite(4, isSelB); isPortSelectB[port] = isSelB; break;
+    case 3: digitalWrite(5, isSelB); isPortSelectB[port] = isSelB; break;
+    case 4: digitalWrite(6, isSelB); isPortSelectB[port] = isSelB; break;
     default: break;
   }
   
@@ -58,7 +58,7 @@ void OnSingleLine(String line)
   Serial.print("] ");
 
   if( line.equalsIgnoreCase( "?" ) ){
-    Serial.println( "OK, available commands: q, sel1a, sel1b, sel2a, sel2b, sel3a, sel3b, sel4a, sel4b" );
+    Serial.println( "OK, available commands: q, 1a, 1b, 2a, 2b, 3a, 3b, 4a, 4b" );
             digitalWrite(10, LOW); //Yellow Status LED
   }else if( line.equalsIgnoreCase( "q" ) ){
     Serial.print( "OK, " );
@@ -71,35 +71,35 @@ void OnSingleLine(String line)
     }
     Serial.println( "" );
     
-  }else if( line.equalsIgnoreCase( "sel1a" ) ){
+  }else if( line.equalsIgnoreCase( "1a" ) ){
     DoSelect(1, false);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel1b" ) ){
+  }else if( line.equalsIgnoreCase( "1b" ) ){
     DoSelect(1, true);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel2a" ) ){
+  }else if( line.equalsIgnoreCase( "2a" ) ){
     DoSelect(2, false);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel2b" ) ){
+  }else if( line.equalsIgnoreCase( "2b" ) ){
     DoSelect(2, true);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel3a" ) ){
+  }else if( line.equalsIgnoreCase( "3a" ) ){
     DoSelect(3, false);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel3b" ) ){
+  }else if( line.equalsIgnoreCase( "3b" ) ){
     DoSelect(3, true);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel4a" ) ){
+  }else if( line.equalsIgnoreCase( "4a" ) ){
     DoSelect(4, false);
     Serial.println( "OK." );
     
-  }else if( line.equalsIgnoreCase( "sel4b" ) ){
+  }else if( line.equalsIgnoreCase( "4b" ) ){
     DoSelect(4, true);
     Serial.println( "OK." );
     
