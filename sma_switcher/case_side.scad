@@ -38,7 +38,7 @@ difference(){
 	translate([side_x_size - 12 , side_y_size - 4, side_z_size]) {
 		screw_hole("M3,10",head="flat",counterbore=0,anchor=TOP);
 	}
-	translate([25 , side_y_size - 20, 0]) {
+	translate([25 , side_y_size - 18, 0]) {
 		cube(size = [25, 8, tap_hole_depth], center = false);
 	}
 }
